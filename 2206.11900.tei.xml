@@ -1,0 +1,973 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">ASTERYX</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher>ACM</publisher>
+				<availability status="unknown"><p>Copyright ACM</p>
+				</availability>
+				<date type="published" when="2021-10-26">2021-10-26</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author role="corresp">
+							<persName coords="1,136.71,156.55,93.36,5.45"><forename type="first">Ryma</forename><surname>Boumazouza</surname></persName>
+							<email>boumazouza@cril.fr</email>
+							<affiliation key="aff0">
+								<orgName type="institution" key="instit1">Univ. Artois</orgName>
+								<orgName type="institution" key="instit2">CNRS</orgName>
+								<orgName type="institution" key="instit3">CRIL Lens</orgName>
+								<address>
+									<country key="FR">France</country>
+								</address>
+							</affiliation>
+							<affiliation key="aff1">
+								<orgName type="institution">Fahima Cheikh-Alili</orgName>
+							</affiliation>
+							<affiliation key="aff2">
+								<orgName type="institution" key="instit1">Univ. Artois</orgName>
+								<orgName type="institution" key="instit2">CNRS</orgName>
+								<orgName type="institution" key="instit3">CRIL Lens</orgName>
+								<address>
+									<country key="FR">France</country>
+								</address>
+							</affiliation>
+							<affiliation key="aff3">
+								<orgName type="institution">Bertrand Mazure</orgName>
+							</affiliation>
+							<affiliation key="aff4">
+								<orgName type="institution" key="instit1">Univ. Artois</orgName>
+								<orgName type="institution" key="instit2">CNRS</orgName>
+								<orgName type="institution" key="instit3">CRIL Lens</orgName>
+								<address>
+									<country>France Karim Tabia</country>
+								</address>
+							</affiliation>
+							<affiliation key="aff5">
+								<orgName type="institution" key="instit1">Univ. Artois</orgName>
+								<orgName type="institution" key="instit2">CNRS</orgName>
+								<orgName type="institution" key="instit3">CRIL Lens</orgName>
+								<address>
+									<country key="FR">France</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Fahima</forename><surname>Cheikh-Alili</surname></persName>
+						</author>
+						<author>
+							<persName><forename type="first">Bertrand</forename><surname>Mazure</surname></persName>
+						</author>
+						<author>
+							<persName><forename type="first">Karim</forename><surname>Tabia</surname></persName>
+						</author>
+						<title level="a" type="main">ASTERYX</title>
+					</analytic>
+					<monogr>
+						<title level="m">Proceedings of the 30th ACM International Conference on Information &amp; Knowledge Management</title>
+						<meeting>the 30th ACM International Conference on Information &amp; Knowledge Management						</meeting>
+						<imprint>
+							<publisher>ACM</publisher>
+							<date type="published" when="2021-10-26" />
+						</imprint>
+					</monogr>
+					<idno type="MD5">D11F0B486A1A80A3C7462062C86ACA88</idno>
+					<idno type="DOI">10.1145/3459637.3482321</idno>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.7.2" ident="GROBID" when="2022-12-25T09:40+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>XAI</term>
+					<term>Symbolic explanations</term>
+					<term>Score-based explanation</term>
+					<term>Model-Agnostic</term>
+					<term>Satisfiability testing</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The ever increasing complexity of machine learning techniques used more and more in practice, gives rise to the need to explain the outcomes of these models, often used as black-boxes. Explainable AI approaches are either numerical feature-based aiming to quantify the contribution of each feature in a prediction or symbolic providing certain forms of symbolic explanations such as counterfactuals. This paper proposes a generic agnostic approach named ASTERYX allowing to generate both symbolic explanations and score-based ones. Our approach is declarative and it is based on the encoding of the model to be explained in an equivalent symbolic representation. This latter serves to generate in particular two types of symbolic explanations which are sufficient reasons and counterfactuals. We then associate scores reflecting the relevance of the explanations and the features w.r.t to some properties. Our experimental results show the feasibility of the proposed approach and its effectiveness in providing symbolic and score-based explanations.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>CCS CONCEPTS</head><p>• Computing methodologies → Artificial intelligence; Machine learning.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<facsimile>
+		<surface n="1" ulx="0.0" uly="0.0" lrx="612.0" lry="792.0"/>
+		<surface n="2" ulx="0.0" uly="0.0" lrx="612.0" lry="792.0"/>
+		<surface n="3" ulx="0.0" uly="0.0" lrx="612.0" lry="792.0"/>
+		<surface n="4" ulx="0.0" uly="0.0" lrx="612.0" lry="792.0"/>
+		<surface n="5" ulx="0.0" uly="0.0" lrx="612.0" lry="792.0"/>
+		<surface n="6" ulx="0.0" uly="0.0" lrx="612.0" lry="792.0"/>
+		<surface n="7" ulx="0.0" uly="0.0" lrx="612.0" lry="792.0"/>
+		<surface n="8" ulx="0.0" uly="0.0" lrx="612.0" lry="792.0"/>
+		<surface n="9" ulx="0.0" uly="0.0" lrx="612.0" lry="792.0"/>
+		<surface n="10" ulx="0.0" uly="0.0" lrx="612.0" lry="792.0"/>
+	</facsimile>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">INTRODUCTION</head><p>In the last decades, the growth of data and widespread usage of Machine Learning (ML) in multiple sensitive fields (e.g. healthcare, criminal justice) and industries emphasized the need for explainability methods. These latter can be grouped into pre-model (ante-hoc), in-model, and post-model (post-hoc). We mainly focus on posthoc methods where we distinguish two types of explanations: <ref type="bibr" coords="1,549.11,369.18,9.63,4.09" target="#b0">(1)</ref> symbolic explanations (e.g. <ref type="bibr" coords="1,421.27,380.14,13.78,4.09" target="#b27">[27]</ref>, <ref type="bibr" coords="1,438.49,380.14,13.78,4.09" target="#b17">[17]</ref>) that are based on symbolic representations used for explanation, verification and diagnosis purposes ( <ref type="bibr" coords="1,356.07,402.06,12.96,4.09" target="#b22">[22]</ref>, <ref type="bibr" coords="1,372.28,402.06,12.96,4.09" target="#b25">[25]</ref>, <ref type="bibr" coords="1,388.48,402.06,12.96,4.09" target="#b17">[17]</ref>), and (2) numerical feature-based methods that provide insights into how much each feature contributed to an outcome (e.g. SHAP <ref type="bibr" coords="1,397.22,423.97,17.19,4.09" target="#b20">[20]</ref>, LIME <ref type="bibr" coords="1,436.65,423.97,15.71,4.09" target="#b23">[23]</ref>). Intuitively, these two categories of approaches try to answer two different types of questions: Symbolic explanations tell why a model predicted a given label for an instance (eg. sufficient reasons) or what would have to be modified in an input instance to have a different outcome (counterfactuals). Numerical approaches, on the other hand, attempt to answer the question to what extent does a feature influence the prediction.</p><p>The existing symbolic explainability methods are model-specific (can only be applied to specific models for which they are intended) and cannot be applied agnostically to any model, which is their main limitation. In the other hand, feature-based methods such as Local Interpretable Model-Agnostic Explanations (LIME) <ref type="bibr" coords="1,496.40,555.48,15.74,4.09" target="#b23">[23]</ref> and SHapley Additive exPlanations (SHAP) <ref type="bibr" coords="1,423.05,566.44,16.55,4.09" target="#b20">[20]</ref> provide the features' importance values for a particular prediction. These values provide an overall information on the contribution of features individually but do not really allow answering certain questions such as: "What are the feature values which are sufficient in order to trigger the prediction whatever the values of the other variables? " or "Which values are sufficient to change in the instance 𝑥 to have a different prediction?". This type of questions is fundamental for the understanding, and, above all, for the explanations to be usable. For example, if a user's application is refused, the user will naturally ask the question: "What must be changed in my application to be accepted? ". We cannot answer this question in a straightforward manner with the features-based explanations. Thus, the major objective of our contribution is to provide both symbolic explanations and scorebased ones for a better understanding and usability of explanations. It is declarative and does not require the implementation of specific algorithms since its based on well-known Boolean satisfiability concepts, allowing to exploit the strengths of modern SAT solvers. We model our explanation enumeration problem and use modern SAT technologies to enumerate the explanations. The approach provides two complementary types of symbolic explanations for the prediction of a data instance 𝑥: Sufficient Reasons (𝑆𝑅 𝑥 for short) and Counterfactuals (𝐶𝐹 𝑥 for short). In addition, it provides score-based explanations allowing to assess the influence of each feature on the outcome. The main contributions of our paper are :</p><p>(1) A declarative and model-agnostic approach allowing to provide 𝑆𝑅 𝑥 and 𝐶𝐹 𝑥 explanations based on SAT technologies ; (2) A set of fine-grained properties allowing to analyze and select explanations and a set of scores allowing to assess the relevance of explanations and features w.r.t the suggested properties ;</p><p>(3) An experimental evaluation providing an evidence of the feasibility and efficiency of the proposed approach ;</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">PRELIMINARIES AND NOTATIONS</head><p>Let us first formally recall some definitions used in the remainder of this paper. For the sake of simplicity, the presentation is limited to binary classifiers with binary features. We explain negative predictions where the outcome is 0 within the paper but the approach applies similarly<ref type="foot" coords="2,113.97,389.52,3.38,3.32" target="#foot_0">1</ref> to explain positive predictions. A decision function describes the classifier's behavior independently from the way it is implemented. We define it as a function 𝑓 : 𝑋 → 𝑌 mapping each instantiation 𝑥 of 𝑋 to 𝑦=𝑓 (𝑥). A data instance 𝑥 is the feature vector associated with an instance of interest whose prediction from the ML model is to be explained. We use interchangeably in this paper 𝑓 to refer to the classifier and its decision function.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Definition 2.2. (SAT : The Boolean Satisfiability problem)</head><p>Usually called SAT, the Boolean satisfiability problem is the decision problem, which, given a propositional logic formula, determines whether there is an assignment of propositional variables that makes the formula true.</p><p>The logic formulae are built from propositional variables and Boolean connectors "AND" (∧), "OR" (∨), "NOT" (¬). A formula is satisfiable if there is an assignment of all variables that makes it true. It is said inconsistent or unsatisfiable otherwise. For example, the formula (𝑥 1 ∧ 𝑥 2 ) ∨ ¬𝑥 1 where 𝑥 1 and 𝑥 2 are Boolean variables, is satisfiable since if 𝑥 1 takes the value false, the formula evaluates to true. A complete assignment of variables making a formula true is called a model while a complete assignment making it false is called a counter-model. Definition 2.3. (CNF (Clausal Normal Form)) A CNF is a set of clauses seen as a conjunction. A clause is a formula composed of a disjunction of literals. A literal is either a Boolean variable 𝑝 or its negation ¬𝑝. A quantifier-free formula is built from atomic formulae using conjunction ∧, disjunction ∨, and negation ¬. An interpretation 𝜇 assigns values from {0, 1} to every Boolean variable. Let Σ be a CNF formula, 𝜇 satisfies Σ iff 𝜇 satisfies all clauses of Σ.</p><p>Over the last decade, many achievements have been made to modern SAT solvers<ref type="foot" coords="2,392.64,181.93,3.38,3.32" target="#foot_1">2</ref> that can handle now problems with several million clauses and variables, allowing them to be efficiently used in many applications. Note that we rely on SAT-solving to explain a black-box model where we encode the problems of generating our symbolic explanations as two common problems related to satisfiability testing which are enumerating minimal reasons why a formula is inconsistent and minimal changes to a formula to restore the consistency. Indeed, in the case of an unsatisfiable CNF, we can analyze the inconsistency by enumerating sets of clauses causing the inconsistency (called Minimal Unsatisfiable Subsets and noted MUS for short), and other sets of clauses allowing to restore its consistency (called Minimal Correction Subsets, MCS for short). The enumeration of MUS/MCS are well-known problems dealt with in many areas such as knowledge base reparation. Several approaches and tools have been proposed in the SAT community for their generation (e.g. <ref type="bibr" coords="2,409.29,348.80,13.50,4.09" target="#b11">[11,</ref><ref type="bibr" coords="2,425.03,348.80,9.71,4.09" target="#b19">19]</ref>).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">ASTERYX: A GLOBAL OVERVIEW</head><p>Our approach is based on associating a symbolic representation that is (almost) equivalent to the decision function of the model to explain. An overview of our approach is depicted on Figure <ref type="figure" coords="2,537.40,407.12,3.07,4.09" target="#fig_1">1</ref>. Given a classifier 𝑓 , our approach proceeds as follows:</p><p>• Step 1 (Encoding into CNF the classifier): This comes down to associating an equivalent symbolic representation Σ 𝑓 to 𝑓 . Σ 𝑓 will serve to generate symbolic explanations in the next step. The encoding is done either using model encoding algorithms if available and if the encoding is tractable, or using a surrogate approach as described in Section 4. • Step 2 (SAT-based modeling of the explanation enumeration problem): Once we have the CNF representation Σ 𝑓 and the input instance 𝑥 whose prediction by 𝑓 is to be explained, we model the explanation generation task as a partial maximum satisfiability problem, also known as Partial Max-SAT <ref type="bibr" coords="2,393.30,552.98,9.44,4.09" target="#b6">[6]</ref>. This step, presented in Section 5, aims to provide two types of symbolic explanations: 𝑆𝑅 𝑥 and 𝐶𝐹 𝑥 .</p><p>They respectively correspond to Minimal Unsatisfiable Subsets (MUS) and Minimal Correction Subsets (MCS) in the SAT terminology. • Step 3 (Explanation and feature relevance scoring): This step aims to assess the relevance of explanations by associating scores evaluating those explanations with regard to a set of properties presented in Section 6. Moreover, this step allows to assess the relevance of features using scoring functions and to evaluate their individual contributions to the outcome. The following sections provide insights for each step of our approach.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">ENCODING THE CLASSIFIER INTO CNF</head><p>This corresponds to Step 1 in our approach and it aims to encode the input ML model 𝑓 into CNF in order to use SAT-solving to enumerate our symbolic explanations. Two cases are considered: Either an encoding of classifier 𝑓 into an equivalent symbolic representation exists (non agnostic case), in which case we can use it, or we consider the classifier 𝑓 as a black-box and we use a surrogate model approach to approximate it in the vicinity of the instance to explain 𝑥 (agnostic case). A direct encoding of the classifier 𝑓 into CNF is possible for some machine learning models such as Binarized Neural Networks (BNNs) <ref type="bibr" coords="3,181.99,452.68,14.59,4.09" target="#b21">[21]</ref> and Naive and Latent-Tree Bayesian networks <ref type="bibr" coords="3,126.09,463.64,13.43,4.09" target="#b28">[28]</ref>. We mainly focus in this paper on the agnostic option used when no direct CNF encoding exists for 𝑓 or if the encoding is intractable.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1">Surrogate model encoding into CNF</head><p>We propose an approach using a surrogate model  𝑋1 handicapped-infants 𝑋2 water-project-cost-sharing 𝑋3 adoption-of-the-budget-resolution 𝑋4 physician-fee-freeze 𝑋5 el-salvador-aid 𝑋6 religious-groups-in-schools 𝑋7 anti-satellite-test-ban 𝑋8 aid-to-nicaraguan-contras</p><formula xml:id="formula_0" coords="3,236.61,520.58,2.82,4.02">𝑓</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>𝑋9</head><p>mx-missile 𝑋10 immigration 𝑋11 synfuels-corporation-cutback 𝑋12 education-spending 𝑋13 superfund-right-to-sue 𝑋14 crime 𝑋15 duty-free-exports 𝑋16 export-administration-act-south-africa Assume an input instance 𝑥=(1,1,1,0,0,0,1,1,1,0,0,0,0,1,0,1) whose prediction is to be explained. As a surrogate model, we trained a random forest classifier RF 𝑓 composed of 3 decision trees (decision tree 1 to 3 from left to right in Fig. <ref type="figure" coords="3,448.27,544.84,3.49,4.09" target="#fig_3">2</ref>) on the vicinity of the input sample 𝑥. In this example, RF 𝑓 achieved an accuracy of 91.66% (RF 𝑓 is said locally faithful to 𝑓 as it has a high accuracy in the vicinity of the instance 𝑥 to explain).</p><p>The CNF encoding of a classifier 𝑓 (or its surrogate 𝑓 𝑆 ) should guarantee the equivalence of the two representations stated as follows :</p><p>Definition 4.2. (Equivalence of a classifier and its CNF encoding) A binary classifier 𝑓 (resp. 𝑓 𝑆 ) is said to be equivalently encoded as a CNF Σ 𝑓 (resp. Σ 𝑓 𝑆 ) if the following condition is fulfilled:</p><formula xml:id="formula_1" coords="3,341.12,655.24,202.33,9.84">𝑓 (𝑥)=1 (resp. 𝑓 𝑆 (𝑥)=1) iff 𝑥 is a model of Σ 𝑓 (resp. Σ 𝑓 𝑆 ).</formula><p>Namely, data instances 𝑥 predicted positively (𝑓 (𝑥)=1) by the classifier are models of the CNF encoding the classifier. Similarly, </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2">CNF encoding of random forests</head><p>When we adopt the surrogate approach and use a random forest 𝑓 𝑆 to agnostically approximate a classifier 𝑓 , encoding the random forest in CNF amounts to encoding the decision trees individually and then encoding the combination rule (majority voting rule).</p><p>-Encode in CNF every decision tree: The internal nodes of a decision tree 𝐷𝑇 𝑖 represent a binary test on one of the features <ref type="foot" coords="4,289.53,313.54,3.38,3.32" target="#foot_3">4</ref> . The leaves of a decision tree, each is annotated with the predicted class (namely, 0 or 1). A decision tree in our case represents a Boolean function.</p><p>As shown on Example 4.3, the Boolean function encoded by a decision tree can be captured in CNF as the conjunction of the negation of paths leading from the root node to leaves labelled 0.</p><p>-Encode in CNF the combination rule: Let 𝑦 𝑖 be a Boolean variable capturing the truth value of the CNF associated to a decision tree 𝐷𝑇 𝑖 . Hence, the majority rule used in random forests to combine the predictions of 𝑚 decision trees can be seen as a cardinality constraint <ref type="foot" coords="4,90.90,434.09,3.38,3.32" target="#foot_4">5</ref> [29] that can be stated as follows:</p><formula xml:id="formula_2" coords="4,141.37,446.70,152.68,20.30">𝑦 ⇔ ∑︁ 𝑖=1..𝑚 𝑦 𝑖 ≥ 𝑡,<label>(1)</label></formula><p>where 𝑡 is a threshold (usually 𝑡= 𝑚 2 ). Cardinality constraints have many CNF encodings (e.g. <ref type="bibr" coords="4,150.56,486.33,9.26,4.09" target="#b0">[1,</ref><ref type="bibr" coords="4,162.07,486.33,6.12,4.09" target="#b2">3,</ref><ref type="bibr" coords="4,170.44,486.33,9.64,4.09" target="#b29">29]</ref>). To form the CNF corresponding to the entire random forest, it suffices to conjuct the 𝑚 CNFs associated to the equivalences between 𝑦 𝑖 and the CNF of the decisions trees, and, the CNF of the combination rule. </p><formula xml:id="formula_3" coords="4,332.82,85.03,222.88,116.44">𝐷𝑇 1 𝑦 1 ⇔ (𝑋 5 ) ∧ (¬𝑋 5 ∨ ¬𝑋 15 ∨ 𝑋 4 ) 𝐷𝑇 2 𝑦 2 ⇔ (𝑋 4 ) ∧ (¬𝑋 4 ∨ ¬𝑋 11 ∨ 𝑋 16 ) 𝐷𝑇 3 𝑦 3 ⇔ (𝑋 9 ∨ 𝑋 14 ) ∧ (𝑋 9 ∨ ¬𝑋 14 ∨ 𝑋 5 ) ∧ (¬𝑋 9 ∨ 𝑋 12 ) ∧ (¬𝑋 9 ∨ ¬𝑋 12 ∨ ¬𝑋 11 ) Majority vote 𝑦 ⇔ (𝑦 1 ∧𝑦 2 ) ∨ (𝑦 1 ∧𝑦 3 ) ∨ (𝑦 2 ∧𝑦 3 ) ∨ (𝑦 1 ∧𝑦 2 ∧𝑦 3 )</formula><p>In this example, each decision tree (𝐷𝑇 𝑖 , 𝑖=1..3) represents a Boolean function whose truth value is captured by Boolean variable 𝑦 𝑖 . The random forest 𝑅𝐹 𝑓 Boolean function is captured by the variable 𝑦. Note that the encoding of 𝑅𝐹 𝑓 is provided in this example in propositional logic in order to avoid heavy notations. Direct encoding to CNF could easily be obtained using for example Tseitin Transformation <ref type="bibr" coords="4,377.35,287.83,13.36,4.09" target="#b30">[30]</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5">GENERATING SUFFICIENT REASONS AND COUNTERFACTUAL EXPLANATIONS</head><p>In this section, we present 𝑆𝑅 𝑥 and 𝐶𝐹 𝑥 as well as the SAT-based setting we use to generate such explanations where the input is the CNF encoding of a classifier Σ 𝑓 and an input data instance Σ 𝑥 whose prediction is to be explained.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.1">STEP 2: A SAT-based setting for the enumeration of symbolic explanations</head><p>Recall that we are interested in two complementary types of symbolic explanations: the sufficient reasons (𝑆𝑅 𝑥 ) which lead to a given prediction and the counterfactuals (𝐶𝐹 𝑥 ) allowing to know minimal changes to apply on the data instance 𝑥 to obtain a different outcome. Our approach to enumerate these two types of explanations is based on two very common concepts in SAT which are MUS and MCS that we will define formally in the following. To restrict the explanations only to clauses that concern the input data 𝑥 and do not include clauses that concern the encoding of the classifier, we use a variant of the SAT problem called Partial-Max SAT <ref type="bibr" coords="4,523.38,519.61,10.43,4.09" target="#b6">[6]</ref> which can be efficiently solved by the existing tools implementing the enumeration of MUSes and MCSes such as the tool in <ref type="bibr" coords="4,516.20,541.52,13.36,4.09" target="#b10">[10]</ref>.</p><p>A Partial Max-SAT problem is composed of two disjoint sets of clauses where Σ 𝐻 denotes the hard clauses (those that could not be relaxed) and Σ 𝑆 denotes the soft ones (those that could be relaxed). In our modeling, the set of hard clauses corresponds to Σ 𝑓 and the soft clauses to Σ 𝑥 representing the CNF encoding of the data instance 𝑥 whose prediction 𝑓 (𝑥) is to be explained. Let Σ 𝑥 be the soft clauses, defined as follows :</p><formula xml:id="formula_4" coords="4,333.92,630.68,225.79,41.03">• Each clause 𝛼 ∈ Σ 𝑥 is composed of exactly one literal (∀𝛼 ∈ Σ 𝑥 , |𝛼 | = 1). • Each literal representing a Boolean variable of Σ 𝑥 corre- sponds to a Boolean variable {𝑋 𝑖 ∈ 𝑋 }.</formula><p>Recall that since the classifier 𝑓 is equivalently encoded to Σ 𝑓 , then a negative prediction 𝑓 (𝑥)=0 corresponds to an unsatisfiable CNF Σ 𝑓 ∪Σ 𝑥 . Now, given an unsatisfiable CNF Σ 𝑓 ∪Σ 𝑥 , it is possible to identify the subsets of Σ 𝑥 responsible for the unsatisfiability (corresponding to reasons of the prediction 𝑓 (𝑥)=0), or the ones allowing to restore the consistency of Σ 𝑓 ∪Σ 𝑥 (corresponding to counterfactuals allowing to flip the prediction and get 𝑓 (𝑥)=1).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.2">Sufficient Reason Explanations (𝑆𝑅 𝑥 )</head><p>We are interested here in identifying minimal reasons why the prediction is 𝑓 (𝑥)=0. This is done by identifying subsets of clauses causing the inconsistency of the CNF Σ 𝑓 ∪Σ 𝑥 (recall that the prediction 𝑓 (𝑥) is captured by the truth value of Σ 𝑓 ∪Σ 𝑥 ). Such subsets of clauses encoding the input 𝑥 are sufficient reasons for the prediction being negative. We formally define the SR 𝑥 explanations as follow:</p><p>Definition 5.1. (SR 𝑥 explanations) Let 𝑥 be a data instance and 𝑓 (𝑥)=0 its prediction by the classifier 𝑓 . A sufficient reason explanation x of 𝑥 is such that:</p><formula xml:id="formula_5" coords="5,58.26,269.63,100.02,19.26">i. x ⊆ 𝑥 (x is a part of 𝑥) ii. ∀ x, x ⊂ x : 𝑓 ( x)=𝑓 (𝑥) (x</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>suffices to trigger the prediction)</head><p>iii. There is no partial instance x ⊂ x satisfying i and ii (minimality) Intuitively, a sufficient reason x is defined as the part of the data instance 𝑥 such that x is minimal and causes the prediction 𝑓 (𝑥)=0. We now define Minimal Unsatisfiable Subsets :</p><formula xml:id="formula_6" coords="5,53.80,352.85,240.25,27.85">Definition 5.2. (MUS) A Minimal Unsatisfiable Subset (MUS) is a minimal subset Γ of clauses of a CNF Σ such that ∀ 𝛼 ∈ Γ, Γ\{𝛼 } is satisfiable.</formula><p>Clearly, a MUS for Σ 𝑓 ∪Σ 𝑥 comes down to a subset of soft clauses, namely a part of 𝑥 that is causing the inconsistency, hence the prediction 𝑓 (𝑥)=0.</p><p>Proposition 5.3. Let 𝑓 be a classifier, let Σ 𝑓 be its CNF representation. Let also 𝑥 be a data instance predicted negatively (𝑓 (𝑥)=0) and let Σ 𝑓 ∪Σ 𝑥 be the corresponding Partial Max-SAT encoding. Let 𝑆𝑅(𝑥, 𝑓 ) be the set of sufficient reasons of 𝑥 wrt. 𝑓 . Let MUS(Σ 𝑓 ,𝑥 ) be the set of MUSes of Σ 𝑓 ∪Σ 𝑥 . Then:</p><formula xml:id="formula_7" coords="5,95.26,499.30,198.78,8.38">∀x ⊆ 𝑥, x ∈ 𝑆𝑅(𝑥, 𝑓 ) ⇐⇒ x ∈ 𝑀𝑈 𝑆 (Σ 𝑓 ,𝑥 )<label>(2)</label></formula><p>Proposition 5.3 states that each MUS of the CNF Σ 𝑓 ∪Σ 𝑥 is a 𝑆𝑅 𝑥 for the prediction 𝑓 (𝑥)=0 and vice versa. The proof is straightforward. It suffices to remember that the decision function of 𝑓 is equivalently encoded by Σ 𝑓 and that the definition of a MUS on Σ 𝑓 ∪Σ 𝑥 corresponds exactly to the definition of an 𝑆𝑅 𝑥 for 𝑓 (𝑥).</p><p>Example 5.4 (Example 4.3 continued). Given the CNF Σ 𝑓 ∪Σ 𝑥 associated to 𝑅𝐹 𝑓 from Example 4.3 and the input 𝑥=(1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 0, 1), we enumerate the 𝑆𝑅 𝑥 for 𝑓 (𝑥)=0 (𝑥 is predicted as Democrat). There are three 𝑆𝑅 𝑥 :</p><p>• 𝑆𝑅 𝑥 1="𝑋 4 =0 AND 𝑋 5 =0" (meaning that if the features physicianfee-freeze (𝑋 4 ) and el-salvador-aid (𝑋 5 ) are set to 0, then the prediction is 0) ; • 𝑆𝑅 𝑥 2="𝑋 12 =0 AND 𝑋 5 =0" ; • 𝑆𝑅 𝑥 3="𝑋 4 =0 AND 𝑋 12 =0 AND 𝑋 9 =1" ; It is easy to check for instance that if 𝑋 4 =0 and 𝑋 5 =0 then 𝐷𝑇 1 and 𝐷𝑇 2 of Fig. <ref type="figure" coords="5,111.18,703.28,4.17,4.09" target="#fig_3">2</ref> predict 0 leading the random forest to predict 0.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.3">Counterfactual Explanations (𝐶𝐹 𝑥 )</head><p>For many applications, knowing the reasons for a prediction is not enough, and one may need to know what changes in the input need to be made to get an alternative outcome. Let us formally define the concept of counterfactual explanation. Definition 5.5. (CF 𝑥 Explanations) Let 𝑥 be a complete data instance and 𝑓 (𝑥) its prediction by the decision function of 𝑓 . A counterfactual explanation x of 𝑥 is such that:</p><formula xml:id="formula_8" coords="5,319.98,185.12,225.34,30.22">i. x ⊆ 𝑥 (x is a part of x) ii. 𝑓 (𝑥 [ x])= 1-𝑓 (𝑥) (prediction inversion) iii. There is no x ⊂ x such that 𝑓 (𝑥 [ x])=𝑓 (𝑥 [ x]) (minimality)</formula><p>In definition 5.5, the term 𝑥 [ x] denotes the data instance 𝑥 where variables included in x are inverted. In our approach, CF 𝑥 are enumerated thanks to the Minimal Correction Subset enumeration <ref type="bibr" coords="5,540.09,247.66,15.60,4.09" target="#b10">[10]</ref>.</p><formula xml:id="formula_9" coords="5,317.96,261.44,240.46,69.24">Definition 5.6. (MSS) A Maximal Satisfiable Subset (MSS) Φ of a CNF Σ is a subset (of clauses) Φ ⊆ Σ that is satisfiable and such that ∀ 𝛼 ∈ Σ \ Φ, Φ ∪ {𝛼} is unsatisfiable. Definition 5.7. (MCS) A Minimal Correction Subset Ψ of a CNF Σ is a set of formulas Ψ ⊆ Σ whose complement in Σ, i.e., Σ \ Ψ, is a maximal satisfiable subset of Σ.</formula><p>Following our modeling, an MCS for Σ 𝑓 ∪Σ 𝑥 comes down to a subset of soft clauses denoted x, namely a part of 𝑥 that is enough to remove (or reverse) in order to restore the consistency, hence to flip the prediction 𝑓 (𝑥)=0 to 𝑓 (𝑥 [ x])=1.</p><p>Proposition 5.8. Let 𝑓 be the decision function of the classifier, let Σ 𝑓 be its CNF representation. Let also 𝑥 be a data instance predicted negatively (𝑓 (𝑥) = 0) and Σ 𝑓 ∪Σ 𝑥 the corresponding Partial Max-SAT encoding. Let 𝐶𝐹 (𝑥, 𝑓 ) be the set of counterfactuals of 𝑥 wrt. 𝑓 . Let MCS(Σ 𝑓 ,𝑥 ) the set of MCSs of Σ 𝑓 ∪ Σ 𝑥 . Then:</p><formula xml:id="formula_10" coords="5,359.37,446.62,198.83,8.38">∀x ⊆ 𝑥, x ∈ 𝐶𝐹 (𝑥, 𝑓 ) ⇐⇒ x ∈ 𝑀𝐶𝑆 (Σ 𝑓 ,𝑥 )<label>(3)</label></formula><p>Proposition 5.8 states that each MCS of the CNF Σ 𝑓 ∪Σ 𝑥 represents a 𝐶𝐹 x⊆𝑥 for the prediction 𝑓 (𝑥)=0 and vice versa.</p><p>Example 5.9 (Example 5.4 cont'd). Given the CNF Σ 𝑓 ∪Σ 𝑥 associated to 𝑅𝐹 𝑓 from Example 4.3 and the input 𝑥=(1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 0, 1), we enumerate the counterfactual explanations to identify the minimal changes to alter the voteDemocrat to Republican. There are four CF 𝑥 :</p><p>• 𝐶𝐹 𝑥 1="𝑋 4 =0 AND 𝑋 12 =0" (meaning that in order to force the prediction to be 1, it is enough to alter 𝑥 by setting only the variables physician-fee-freeze (𝑋 4 ) and education-spending (𝑋 12 ) to 1 while keeping the remaining values unchanged); • 𝐶𝐹 𝑥 2="𝑋 5 =0 AND 𝑋 12 =0" ; • 𝐶𝐹 𝑥 3="𝑋 5 =0 AND 𝑋 9 =1" ; • 𝐶𝐹 𝑥 4="𝑋 4 =0 AND 𝑋 5 =0" ; It is easy to see that the four CF 𝑥 allow to flip the negative prediction associated to 𝑥. Indeed, in Fig. <ref type="figure" coords="5,466.54,639.15,3.01,4.09" target="#fig_5">3</ref>, the pink lines show the branches of the trees that are fixed by the current input instance 𝑥. Clearly, according to 𝐶𝐹 𝑥 1="𝑋 4 =0 AND 𝑋 12 =0", if we set 𝑋 4 =1 and 𝑋 12 =1 then this will force 𝐷𝑇 2 and 𝐷𝑇 3 to predict 1 making the prediction of the random forest flip to 1. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6">NUMERICALLY ASSESSING THE RELEVANCE OF SYMBOLIC EXPLANATIONS AND FEATURES</head><p>The number of symbolic explanations from Step 2 can be large and a question then arises which explanations to choose or which explanations are most relevant? 6 We try to answer this question by defining some desired properties of an explanation score. Hence, in order to select the most relevant 7 explanations and features, we propose to use some natural properties and propose some examples of scoring functions to assign a numerical score to an explanation and to a feature value of the input data.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.1">Properties of symbolic explanations and scoring functions</head><p>Let us use 𝐸 (𝑥, 𝑓 ) to denote the set of explanations (either SR 𝑥 or CF 𝑥 ) for an input instance 𝑥 predicted negatively by the classifier 𝑓 . An explanation is denoted by 𝑒 𝑖 where 𝑖 = 1, .., |𝐸 (𝑥, 𝑓 )| and 𝐸 (𝑥, 𝑓 ) is a non empty set. The neighborhood of 𝑥 within the radius 𝑟 is formally defined as 𝑉 (𝑥, 𝑟 ): {𝑣 ∈ 𝑋 | diff(𝑥, 𝑣) ⩽𝑟 } 8 . Given an explanation 𝑒 𝑖 , let size(𝑒 𝑖 ) denote the number of variables composing it, and Extent(𝑒 𝑖 , 𝑥, 𝑟 ) be the set of data instances defined as : {𝑣 ∈𝑉 (𝑥, 𝑟 ) | 𝑓 (𝑣)=𝑓 (𝑥) and for 𝑒 𝑖 ∈𝐸 (𝑣, 𝑓 )}. Intuitively, Extent(𝑒 𝑖 , 𝑥, 𝑟 ) denotes the set of data instances from the neighborhood of 𝑥 that are negatively predicted by 𝑓 and sharing the explanation 𝑒 𝑖 .</p><p>In the following we propose three natural properties that can be used to capture some aspects of our symbolic explanations :</p><p>-Parsimony (PAR) : The parsimony is a natural property allowing to select the simplest or shortest explanations (namely, explanations involving less features). Hence, the parsimony score of an 6 An inconsistent Boolean formula can potentially have a large set of explanations (MUSes and MCSes). More precisely, for a knowledge base containing 𝑘 clauses, the number of MUSes and MCSes can be in the worst case exponential in 𝑘 <ref type="bibr" coords="6,258.55,675.38,10.39,3.18" target="#b19">[19]</ref>. 7 Of course, the relevance depends on the user's interpretation and the context. 8 diff(x,v) denotes a distance measure that returns the number of different feature values between 𝑥 and 𝑣.</p><p>explanation 𝑒 𝑖 should be inversely proportional to it's size. Formally, given a data instance 𝑥, its set of explanations 𝐸 (𝑥, 𝑓 ) : For two explanations 𝑒 1 and 𝑒 2 from 𝐸 (𝑥, 𝑓 ): PAR(𝑒 1 )&gt; PAR(𝑒 2 ) iff size(𝑒 1 )&lt;size(𝑒 2 ) . An example of a scoring function satisfying the parsimony property is :</p><formula xml:id="formula_11" coords="6,398.61,148.93,159.60,17.72">𝑆 P A R (𝑒 𝑖 ) = 1 𝑠𝑖𝑧𝑒 (𝑒 𝑖 ) (4)</formula><p>-Generality (GEN ) : This property aims to reflect how much an explanation can be general to a multitude of data instances, or in the opposite, reflect how much an explanation is specific to the instance. Intuitively, the generality of an explanation should be proportional to the number of data instances it explains. Given a data instance 𝑥, its set of explanations 𝐸 (𝑥, 𝑓 ), its neighborhood 𝑉 (𝑥, 𝑟 ) and two explanations 𝑒 1 and 𝑒 2 from 𝐸 (𝑥, 𝑓 ): GEN (𝑒 1 )&gt; GEN (𝑒 2 ) iff |Extent(𝑒 1 , 𝑥, 𝑟 )|&gt;|Extent(𝑒 2 , 𝑥, 𝑟 )|. An example of a scoring function capturing this property is :</p><formula xml:id="formula_12" coords="6,375.95,278.94,182.25,19.92">𝑆 G E N (𝑥, 𝑟, 𝑒 𝑖 ) = |𝐸𝑥𝑡𝑒𝑛𝑡 (𝑒 𝑖 , 𝑥, 𝑟 )| |𝑉 (𝑥, 𝑟 )|<label>(5)</label></formula><p>Intuitively, this scoring function assesses the proportion of data instances in the neighborhood of the instance 𝑥 that are negatively predicted and that share the explanation 𝑒 𝑖 .</p><p>-Explanation responsibility (RESP) : This property allows to answer the question how much an explanation is responsible for the current prediction. Intuitively, if there is a unique explanation, then this latter is fully responsible. Hence, the responsibility of an explanation should be inversely proportional to the number of explanations in 𝐸 (𝑥, 𝑓 ). Given two different data instances 𝑥 1 and 𝑥 2 and their explanation sets 𝐸 (𝑥 1 , 𝑓 ) and 𝐸 (𝑥 2 , 𝑓 ) respectively and 𝑒 𝑘 ∈ 𝐸 (𝑥 1 , 𝑓 )∩𝐸 (𝑥 2 , 𝑓 ): RESP(𝑥 1 , 𝑒 𝑘 )&lt; RESP(𝑥 2 , 𝑒 𝑘 ) iff |𝐸 (𝑥 1 , 𝑓 )|&gt;|𝐸 (𝑥 2 , 𝑓 )|. For a given data instance 𝑥, the responsibility of 𝑒 𝑖 ∈𝐸 (𝑥, 𝑓 ) could be evaluated using the following scoring function :</p><formula xml:id="formula_13" coords="6,391.23,478.18,166.97,17.65">𝑆 R E S P (𝑥, 𝑒 𝑖 ) = 1 |𝐸 (𝑥, 𝑓 )|<label>(6)</label></formula><p>Note that the scoring function of Eq. 6 assigns the same score to every explanation in 𝐸 (𝑥, 𝑓 ). To decide among the explanations in 𝐸 (𝑥, 𝑓 ), one can calculate a responsibility score for 𝑒 𝑖 in the neighborhood of 𝑥. An example of a scoring function capturing this property, would be :</p><formula xml:id="formula_14" coords="6,364.37,565.95,193.83,16.32">𝑆 R E S P (𝑥, 𝑟, 𝑒 𝑖 ) = max (𝑆 R E S P (𝑣, 𝑒 𝑖 )) 𝑣 ∈𝑉 (𝑥,𝑟 ) |𝑒 𝑖 ∈𝐸 (𝑣,𝑓 )<label>(7)</label></formula><p>These properties make it possible to analyze and if necessary select or order the symbolic explanations according to a particular property. Of course, we can define other properties or variants of these properties (e.g. relative parsimony to reflect the parsimony of one explanation compared to the parsimony of the rest of the explanations). The properties can have a particular meaning or a usefulness depending on the applications and users. It would be interesting to study the links and the interdependence between these properties. Let us now see properties allowing to assess the relevance of the features reflecting their contribution to the prediction. -Feature Involvement (F I) : This property is intended to reflect the extent of involvement of a feature within the set of explanations. The intuition is that a feature that participates in several explanations of the same instance 𝑥 should have a higher importance compared to a less involved feature. Given a data instance 𝑥, its set of explanations 𝐸 (𝑥, 𝑓 ), and two features 𝑋 1 and 𝑋 2 :</p><formula xml:id="formula_15" coords="7,54.02,332.15,193.37,8.44">F I(𝑋 1 ,𝑥)&gt; F I(𝑋 2 ,𝑥) iff |Cover(𝑋 1 ,𝑥)|&gt;|Cover(𝑋 2 ,𝑥)|.</formula><p>An example of a scoring function capturing this property is :</p><formula xml:id="formula_16" coords="7,120.42,356.40,173.63,19.92">𝑆 F I (𝑋 𝑘 , 𝑥) = |𝐶𝑜𝑣𝑒𝑟 (𝑋 𝑘 , 𝑥)| |𝐸 (𝑥, 𝑓 )|<label>(8)</label></formula><p>-Feature Generality (F G) : This property captures at what extent a feature is frequently involved in explaining instances in the vicinity of the sample to explain. Given a sample 𝑥, its vicinity 𝑉 (𝑥, 𝑟 ) and the explanation set 𝐸 (𝑉 (𝑥, 𝑟 ), 𝑓 ) defined as 𝐸 (𝑣, 𝑓 )</p><p>𝑣 ∈𝑉 (𝑥,𝑟 )</p><p>, we have:</p><formula xml:id="formula_17" coords="7,54.02,433.22,212.63,15.85">F G(𝑋 1 )&gt; F G(𝑋 2 ) iff | 𝐶𝑜𝑣𝑒𝑟 (𝑋 1 , 𝑣)| 𝑣 ∈𝑉 (𝑥,𝑟 ) &gt; | 𝐶𝑜𝑣𝑒𝑟 (𝑋 2 , 𝑣)| 𝑣 ∈𝑉 (𝑥,𝑟 )</formula><p>. An example of a scoring function capturing this property could be :</p><formula xml:id="formula_18" coords="7,119.27,464.40,174.78,28.89">𝑆 F G (𝑋 𝑘 ) = | 𝐶𝑜𝑣𝑒𝑟 (𝑋 𝑘 , 𝑣)| 𝑣 ∈𝑉 (𝑥,𝑟 ) |𝐸 (𝑉 (𝑥, 𝑟 ), 𝑓 )|<label>(9)</label></formula><p>-Feature Responsibility (F R) : This property is intended to reflect the responsibility or contribution of a feature 𝑋 𝑖 within the set of symbolic explanations of 𝑥. Intuitively, the responsibility of a feature should be inversely proportional to the size of the explanations where it is involved (the shortest the explanation, the highest the responsibility value of its variables). Given two features 𝑋 1 , 𝑋 2 with non empty covers:</p><formula xml:id="formula_19" coords="7,54.02,575.62,195.16,16.91">F R(𝑋 1 )&gt; F R(𝑋 2 ) iff 𝑎𝑔𝑔𝑟 (𝑠𝑖𝑧𝑒 (𝑒 𝑗 )) 𝑒 𝑗 ∈𝐶𝑜𝑣𝑒𝑟 (𝑋 1 ,𝑥) &lt; 𝑎𝑔𝑔𝑟 (𝑠𝑖𝑧𝑒 (𝑒 𝑗 )) 𝑒 𝑗 ∈𝐶𝑜𝑣𝑒𝑟 (𝑋 2 ,𝑥)</formula><p>where 𝑎𝑔𝑔𝑟 stands for an aggregation function (e.g. min, max, 𝐴𝑉 𝐺, etc.). An example of a scoring function satisfying this property is :</p><formula xml:id="formula_20" coords="7,123.23,621.12,99.46,17.72">𝑆 F R (𝑋 𝑘 ) = 1 𝐴𝑉 𝐺 (𝑠𝑖𝑧𝑒 (𝑒 𝑗 ))</formula><p>𝑒 𝑗 ∈𝐶𝑜𝑣𝑒𝑟 (𝑋 𝑘 ,𝑥) <ref type="bibr" coords="7,280.36,627.19,13.68,4.09" target="#b10">(10)</ref> Note that this is a non-exhaustive list of properties that one could be interested in order to select and rank explanations or features according to their contributions. In addition to the different explanation scores presented above, one can aggregate them (e.g., by averaging) to get an overall score depending on the user needs.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="7">EMPIRICAL EVALUATION 7.1 Experimentation set-up</head><p>We evaluated our approach on a widely used standard ML dataset: the MNIST 9 handwritten digit database composed of 70,000 images of size 28 × 28 pixels. The images were binarized using a threshold 𝑇 = 127. In addition, we used three other publicly available datasets 9 http://yann.lecun.com/exdb/mnist/ (SPECT, MONKS and Breast-cancer). We trained "one-vs-all" binary neural network (BNN) 10 classifiers on the MNIST database to recognize digits (0 to 9) using the pytorch implementation 11  of the Binary-Backpropagation algorithm BinaryNets <ref type="bibr" coords="7,514.58,330.35,13.32,4.09" target="#b13">[13]</ref>. Neural network classifiers were trained on the rest of the datasets. Those classifiers are considered as the input black-box models we are interested in explaining their outcomes.</p><p>All experiments have been conducted on Intel Core i7-7700 (3.60GHz ×8) processors with 32Gb memory on Linux.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="7.2">Results</head><p>We report the following results by setting the following parameters 𝑛𝑏_𝑡𝑟𝑒𝑒𝑠 = 10 and 𝑚𝑎𝑥_𝑑𝑒𝑝𝑡ℎ = 24 for the random forest classifier trained on the vicinity of an input sample 𝑥 as the surrogate model. The experiments were conducted on an average of 1500 instances picked randomly from the MNIST database. The predictions are made using 12 the "one-vs-all" BNN classifiers trained to recognize the 0,2,5,6 and 8 digits. Due to the limited number of pages, we only present the results for radius 250 with an average of 200 neighbors around 𝑥 for MNIST. As for the rest, we consider all instances as neighbors (radius equal to the number of features).</p><p>Evaluating the CNF encoding feasibility. We report our results regarding the size of the generated CNF formulae. We use the Tseitin Transformation <ref type="bibr" coords="7,377.45,557.00,14.74,4.09" target="#b30">[30]</ref> to encode the propositional formulae into an equisatisfiable CNF formulae. Table <ref type="table" coords="7,341.94,577.36,4.61,7.70" target="#tab_1">1</ref> shows that the generated random forest classifiers provide interesting results in term of fidelity (high accuracy of the surrogate models) and tractability (size of the CNF encoding).In Table <ref type="table" coords="7,538.12,600.84,3.08,4.09" target="#tab_1">1</ref>, the size of CNF is expressed as number of variables/number clauses. We can see that the number of variables and clauses of CNF formulae remains reasonable and easily handled by the current SAT-solvers which confirms the feasibility of the approach.</p><p>Evaluating the enumeration of symbolic explanations. The objective here is to assess the practical feasibility of the enumeration (scalability) of 𝑆𝑅 𝑥 and 𝐶𝐹 𝑥 explanations. For the enumeration of 𝐶𝐹 𝑥 , we use the EnumELSRMRCache tool 13 implementing the boosting algorithm for MCSes enumeration proposed in <ref type="bibr" coords="7,488.30,704.94,14.61,4.09" target="#b10">[10]</ref>    10 defined as a neural networks with binary weights and activations at run-time 11 available at: https://github.com/itayhubara/BinaryNet.pytorch 12 the results for the other digits are similar but can not be reported here because of space limitation 13 available at http://www.cril.univ-artois.fr/enumcs/ We observe within Table <ref type="table" coords="8,148.05,499.24,4.61,7.70" target="#tab_2">2</ref> that the average run-time remains reasonable (note that the times shown in Table <ref type="table" coords="8,222.11,511.76,4.25,4.09" target="#tab_2">2</ref> relate to the time taken to list all the explanations. The solver starts to find the first explanations very promptly) and that the approach is efficient in practice for medium size BNN classifiers (as shown in the experiments for BNNs with around 800 variables). We also observe that the number of 𝐶𝐹 𝑥 may be challenging for a user to understand, hence the need for scoring them to filter them out and find the ones with the strongest influence on the prediction.</p><p>Illustrating 𝑆𝑅 𝑥 and 𝐶𝐹 𝑥 explanations for MNIST data set. We trained two "one-vs-all" 14 BNNs 𝑓 8 and 𝑓 0 to recognize the eight and zero digits. They have respectively achieved an accuracy of 97% and 99%.</p><p>The "a" column in the different figures shows the input images (resp. representing the digit 5 and 1). Those data samples were negatively predicted. The model 𝑓 8 (resp. 𝑓 0 ) recognizes that the input image in the 1 𝑠𝑡 line (resp. the 2 𝑛𝑑 ) is not an 8-digit (resp. a 0-digit). Figure <ref type="figure" coords="8,53.59,682.16,8.27,4.09" target="#fig_7">4a</ref> shows an example of a single 𝑆𝑅 𝑥 explanation highlighting the 14 A "one-vs-all" BNN 𝑓 𝑖 returns a positive prediction for an input image representing the "i" digit, and negative one otherwise.</p><p>sufficient pixels for the models 𝑓 8 and 𝑓 0 to trigger a negative prediction. Figure <ref type="figure" coords="8,372.77,397.17,8.52,4.09" target="#fig_7">4b</ref> shows an example of 𝐶𝐹 𝑥 explanations showing the pixels to invert in the input images to make the models 𝑓 8 and 𝑓 0 predict them positively. In addition, one could recognize in the "c" column of Fig. <ref type="figure" coords="8,387.94,430.04,8.76,4.09" target="#fig_7">4b</ref> a pattern of the 8-digit for the first image, and 0 for the second. It gives us a kind of "pattern/template" of the images that the model would positively predict.</p><p>Figure <ref type="figure" coords="8,343.00,462.92,4.09,4.09" target="#fig_8">5</ref> shows heatmaps corresponding to the Feature Involvement (FI) scores (column "b-c") and Feature Responsibility (FR) (column "d-e") scores of the different input variables implicated in the 𝑆𝑅 𝑥 and 𝐶𝐹 𝑥 . Visually, they are simpler, clearer and easier to understand and use. We used around 100 data samples to compare the most important features according to the F I score of our approach and those of SHAP ("f" column of Fig. <ref type="figure" coords="8,440.27,528.67,2.88,4.09" target="#fig_8">5</ref>). The results coincide from 20% to 46% of cases, which is visually confirmed in our figures.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="8">RELATED WORKS</head><p>Explaining machine learning systems has been a hot research topic recently. There has been hundreds of papers on ML explainability but we will be focusing on the ones closely related to our work.</p><p>In the context of model-agnostic explainers where the learning function of the input model and its parameters are not known (black-box), we can cite some post-hoc explanations methods such as: LIME (Local Interpretable Model-agnostic Explanations) <ref type="bibr" coords="8,543.35,648.48,14.85,4.09" target="#b23">[23]</ref> which explain black-box classifiers by training an interpretable model 𝑔 on samples randomly generated in the vicinity of the data instance. We follow an approach similar to LIME, the difference is that we encode our surrogate model into a CNF to generate symbolic explanations. The authors in <ref type="bibr" coords="8,444.32,703.28,14.70,4.09" target="#b24">[24]</ref> proposed a High-precision model agnostic explanations called ANCHOR. It is based on computing a decision rule linking the feature space to a certain outcome, and consider it as an anchor covering similar instances. Something similar is done in SHAP (SHapley Additive exPlanations) <ref type="bibr" coords="9,262.65,122.46,14.67,4.09" target="#b20">[20]</ref> that provides explanations in the form of the game theoretically optimal called Shapley values. Due to its computational complexity, other model-specific versions have been proposed for linear models and deep neural networks (resp LinearSHAP and DeepSHAP) in <ref type="bibr" coords="9,63.73,177.25,13.49,4.09" target="#b20">[20]</ref>. The main difference with this rule sets/feature-based explanation methods and the symbolic explanations we propose is that ours associates a score w.r.t to some relevance properties, in order to assess to what extent the measured entity is relevant as explanation or involved as features in the sufficient reasons or in the counterfactuals.</p><p>Recently, some authors propose symbolic and logic-based XAI approaches that can be used for different purposes <ref type="bibr" coords="9,238.75,253.96,9.32,4.09" target="#b9">[9]</ref>. We can distinguish the compilation-based approaches where Boolean decision functions of classifiers are compiled into some symbolic forms. For instance, in <ref type="bibr" coords="9,96.67,286.84,9.23,4.09" target="#b8">[8,</ref><ref type="bibr" coords="9,107.93,286.84,11.47,4.09" target="#b27">27]</ref> the authors showed how to compile the decision functions of naive Bayes classifiers into a symbolic representation, known as Ordered Decision Diagrams (ODDs). We proposed in a previous work <ref type="bibr" coords="9,107.45,319.72,10.43,4.09" target="#b7">[7]</ref> an approach designed to equip such symbolic approaches <ref type="bibr" coords="9,87.43,330.67,14.60,4.09" target="#b27">[27]</ref> with a module for counterfactual explainability. There are some ML models whose direct encoding into CNF is possible. For instance, the authors in <ref type="bibr" coords="9,157.13,352.59,14.78,4.09" target="#b21">[21]</ref> proposed a CNF encoding for Binarized Neural Networks (BNNs) for verification purposes. In <ref type="bibr" coords="9,278.44,363.55,13.27,4.09" target="#b26">[26]</ref>, the authors propose a compilation algorithm of BNNs into tractable representations such as Ordered Binary Decision Diagrams (OB-DDs) and Sentential Decision Diagrams (SDDs). The authors in <ref type="bibr" coords="9,279.45,396.43,14.60,4.09" target="#b28">[28]</ref> proposed algorithms for compiling Naive and Latent-Tree Bayesian network classifiers into decision graphs. In <ref type="bibr" coords="9,215.98,418.35,9.52,4.09" target="#b1">[2]</ref>, the authors dealt with a set of explanation queries and their computational complexity once classifiers are represented with compiled representations. However, the compilation-based approaches are hardly applicable to large sized models, and remain strongly dependent on the type of classifier to explain (non agnostic). Our approach can use those compilation algorithms to represent the whole classifier when the encoding remains tractable, but in addition, we propose a local approximation of the original model using a surrogate model built on the neighborhood of the instance at hand.</p><p>Recent works in <ref type="bibr" coords="9,387.35,122.46,13.40,4.09" target="#b16">[16,</ref><ref type="bibr" coords="9,402.67,122.46,11.47,4.09" target="#b17">17]</ref> deal with some forms of symbolic explanations referred to as abductive explanations (AXp) and contrastive explanations (CXp) using SMT oracles. In <ref type="bibr" coords="9,469.71,144.37,13.25,4.09" target="#b14">[14]</ref>, the authors explain the prediction of decision list classifiers using a SAT-based approach. Explaining random forests and decision trees is dealt with for instance in <ref type="bibr" coords="9,354.15,177.25,10.68,4.09" target="#b1">[2]</ref> and <ref type="bibr" coords="9,383.77,177.25,13.61,4.09" target="#b15">[15,</ref><ref type="bibr" coords="9,399.96,177.25,11.59,4.09" target="#b18">18]</ref> respectively. The main difference with our work, is that we are proposing an approach that goes from the model whose predictions are to be explained to its encoding and goes beyond the enumeration of symbolic explanations by defining some scoring functions w.r.t some relevance properties. Different explanation scores have been proposed in the literature. Authors in <ref type="bibr" coords="9,327.78,243.00,10.68,4.09" target="#b3">[4]</ref> used the counterfactual explanations to define an explanation responsibility score for a feature value in the input. In <ref type="bibr" coords="9,532.02,253.96,9.31,4.09" target="#b4">[5]</ref>, the authors used the answer-set programming to analyze and reason about diverse alternative counterfactuals and to investigate the causal explanations and the responsibility score in databases.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="9">CONCLUDING REMARKS AND DISCUSSIONS</head><p>We proposed a novel model agnostic generic approach to explain individual outcomes by providing two complementary types of symbolic explanations (sufficient reasons and counterfactuals) and scores-based ones. The objective of the approach is to explain the predictions of a black-box model by providing both symbolic and score-based explanations with the help of Boolean satisfiability concepts. The approach takes advantage of the strengths of already existing and proven solutions, and of the powerful practical tools for the generation of MCS/MUS. The proposed approach overcomes the complexity of encoding a ML classifier into an equivalent logical representation by means of a surrogate model to symbolically approximate the original model in the vicinity of the sample of interest. The presentation of the paper was limited to the explanation of negative predictions to exploit the concepts of MUS and MCS and use a SAT-based approach. For positively predicted instances, we can simply work on the negation of the symbolic representation (CNF) of 𝑓 (namely ¬Σ 𝑓 ). The enumeration of the explanations is done in the same way as for negative predictions.</p><p>To the best of our knowledge, our approach is the first that generates different types of symbolic explanations and fine-grained scorebased ones. In addition, our approach is agnostic and declarative.</p><p>Another advantage of our approach is the local faithfulness <ref type="bibr" coords="10,279.42,155.33,14.62,4.09" target="#b23">[23]</ref> to the instance to be explained.As future works, we intend to extend our approach for multi-label (ML) classification tasks to explain predictions in a multi-label setting.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0" coords="2,63.76,408.07,230.28,8.02;2,53.80,420.87,240.24,5.50;2,54.16,429.56,163.38,7.70"><head>Definition 2 . 1 .</head><label>21</label><figDesc>(Binary classifier) A Binary classifier is defined by two sets of binary variables: A feature space 𝑋 = {𝑋 1 ,..,𝑋 𝑛 } where |𝑋 |=𝑛, and a binary class variable denoted 𝑌 .</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1" coords="3,198.02,278.47,215.96,7.70;3,116.85,83.69,378.31,180.79"><head>Figure 1 :</head><label>1</label><figDesc>Figure 1: A global overview of the proposed approach</figDesc><graphic coords="3,116.85,83.69,378.31,180.79" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2" coords="3,327.92,345.20,230.29,8.02;3,317.96,358.01,240.25,4.17;3,317.96,366.48,240.25,6.57;3,317.96,378.08,240.25,8.02;3,317.96,389.04,240.25,8.02;3,317.96,401.85,241.76,4.17;3,317.96,412.80,146.99,4.17"><head>Example 4 . 1 .</head><label>41</label><figDesc>As a running example to illustrate the different steps, we trained a Neural Network model 𝑓 on the United Stated Congressional Voting Records Data Set 3 . In this example, the label Republican corresponds to a positive prediction, noted 1 while the label Democrat corresponds to a negative prediction, noted 0. The trained Neural Network model 𝑓 achieves 95.74% accuracy. An input 𝑥 consists of the following features :</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3" coords="4,53.80,185.65,239.44,7.70;4,193.84,84.29,111.54,87.37"><head>Figure 2 :</head><label>2</label><figDesc>Figure 2: A random forest trained on the neighborhood of 𝑥</figDesc><graphic coords="4,193.84,84.29,111.54,87.37" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4" coords="4,63.76,533.80,230.28,8.02;4,53.80,546.61,240.25,4.09;4,53.80,557.57,160.57,6.11"><head>Example 4 . 3 (</head><label>43</label><figDesc>Example 4.1 continued). Let us continue with the random forest classifier of Example 4.1. The following formulae illustrate the encoding steps applied to 𝑅𝐹 𝑓 :</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5" coords="6,88.62,208.93,169.81,7.70;6,56.57,83.69,249.45,111.25"><head>Figure 3 :</head><label>3</label><figDesc>Figure 3: The random forest paths set by 𝑥</figDesc><graphic coords="6,56.57,83.69,249.45,111.25" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6" coords="8,120.50,334.46,118.55,6.85;8,372.26,334.10,119.43,6.85"><head></head><label></label><figDesc>(a) Example of 𝑆𝑅 𝑥 explanations. (b) Example of 𝐶𝐹 𝑥 explanations.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7" coords="8,125.96,356.45,360.08,7.70;8,85.32,187.40,189.15,139.12"><head>Figure 4 :</head><label>4</label><figDesc>Figure 4: Data samples from MNIST database and their respective symbolic explanations.</figDesc><graphic coords="8,85.32,187.40,189.15,139.12" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8" coords="9,53.80,687.47,504.40,7.70;9,53.80,698.43,395.95,7.70;9,116.85,512.87,378.30,160.61"><head>Figure 5 :</head><label>5</label><figDesc>Figure 5: Heatmaps in columns (b-c) representing the (FI) score, and (d-e) the (FR) computed over the 𝑆𝑅 𝑥 and 𝐶𝐹 𝑥 of the samples data from MNIST (column a) in comparaison to heatmaps of the SHAP values (column f).</figDesc><graphic coords="9,116.85,512.87,378.30,160.61" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0" coords="3,53.47,308.22,504.73,404.00"><head></head><label></label><figDesc>, we construct the neighborhood of 𝑥, noted 𝑉 (𝑥, 𝑟 ), by sampling data instances within a radius 𝑟 of 𝑥. In case the data set is not available, we can draw new perturbed samples around 𝑥. Once the vicinity of 𝑥 sampled, we train a random forest on the data set composed of (𝑥 𝑖 , 𝑓 (𝑥 𝑖 )) for 𝑖=1..𝑝 where 𝑥 𝑖 is a sampled data instance, 𝑝 is the number of sampled instances. Each 𝑥 𝑖 is labeled with the prediction 𝑓 (𝑥 𝑖 ) since the aim is to ensure that the surrogate model 𝑓 𝑆 is locally (in 𝑥's neighborhood) faithful to 𝑓 .</figDesc><table coords="3,53.47,520.43,241.56,146.55"><row><cell>𝑆 which is i) as</cell></row><row><cell>faithful as possible to the initial model 𝑓 (ensures same predictions)</cell></row><row><cell>and ii) allows to obtain a tractable CNF encoding. More precisely,</cell></row><row><cell>we use the surrogate model 𝑓 𝑆 to approximate the classifier 𝑓 in</cell></row><row><cell>the neighborhood of the instance to be explained. Note that one</cell></row><row><cell>can approximate the classifier 𝑓 on the whole data set if this latter</cell></row><row><cell>is available. A machine learning model that can guarantee a good</cell></row><row><cell>trade-offs between faithfulness and giving a tractable CNF encoding</cell></row><row><cell>is the one of random forests [12]. As we will see in our experimental</cell></row><row><cell>study, random forests allow to obtain a good level of faithfulness</cell></row><row><cell>(in general around 95%) while giving compact CNF encodings in</cell></row><row><cell>terms of the number of clauses and variables. Given a data instance</cell></row><row><cell>𝑥 whose prediction by the original model 𝑓 is to be explained and</cell></row><row><cell>a data set</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1" coords="7,53.47,87.17,505.40,176.02"><head>Table 1 :</head><label>1</label><figDesc>Evaluating the scalability of the CNF encoding.Let us define Cover(𝑋 𝑘 ,𝑥) as the set of explanations from 𝐸 (x, 𝑓 ) where the feature 𝑋 𝑘 is involved (namely Cover(𝑋 𝑘 ,𝑥)={𝑒 𝑖 |𝑋 𝑘 ∈𝑒 𝑖 for 𝑒 𝑖 ∈𝐸 (𝑥, 𝑓 )}). We consider the following properties :</figDesc><table coords="7,53.80,87.17,505.07,141.50"><row><cell></cell><cell>MNIST_0</cell><cell>MNIST_2</cell><cell>MNIST_5</cell><cell>MNIST_6</cell><cell>MNIST_8</cell><cell>SPECT</cell><cell>MONKS</cell><cell>Breast_cancer</cell></row><row><cell>avg acc of RF</cell><cell>98%</cell><cell>93%</cell><cell>99%</cell><cell>96%</cell><cell>95%</cell><cell>99%</cell><cell>98%</cell><cell>82%</cell></row><row><cell cols="2">min size CNF 0.83</cell><cell>0.88</cell><cell>0.92</cell><cell>0.82</cell><cell>0.74</cell><cell>1.07</cell><cell>1.66</cell><cell>2.02</cell></row><row><cell>avg enc_runtime (s)</cell><cell>1.05</cell><cell>1.06</cell><cell>1.11</cell><cell>0.92</cell><cell>0.86</cell><cell>1.214</cell><cell>1.56</cell><cell>2.5</cell></row><row><cell>max enc_runtime (s)</cell><cell>1.51</cell><cell>1.92</cell><cell>1.56</cell><cell>1.31</cell><cell>1.32</cell><cell>1.5</cell><cell>2.03</cell><cell>3.42</cell></row><row><cell cols="4">6.2 Properties of features-based explanations</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell cols="2">and scoring functions</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2" coords="7,505.15,704.94,53.05,4.09"><head>Table 2 :</head><label>2</label><figDesc>Evaluating the enumeration of counterfactual explanations.</figDesc><table coords="7,505.15,704.94,53.05,4.09"><row><cell>with a timeout</cell></row></table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="1" xml:id="foot_0">will be discussed in the "Concluding remarks and discussions" Section.</note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="2" xml:id="foot_1">A SAT solver is a program for deciding the satisfiability of Boolean formulae encoded in conjunctive normal form.</note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="3" xml:id="foot_2">Available at https://archive.ics.uci.edu/ml/datasets/congressional+voting+records.</note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="4" xml:id="foot_3">Remember that all the features in our case are binary.</note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="5" xml:id="foot_4">In our case this constraint means that at least 𝑡 decision trees predicted the label 1.</note>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>ACKNOWLEDGMENTS</head><p>The authors would like to thank the Région Hauts-de-France and the University of Artois for supporting this work.</p></div>
+			</div>
+
+
+			<div type="funding">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>1744/4944 1941/5452 2196/6102 1978/5534 1837/5178 2495/7174 2351/6714 5094/14184 avg size CNF 1979/5540 2172/6050 2481/6856 2270/6293 2059/5727 2758/7921 2883/8146 6069/16907 max size CNF 2176/6066 2429/6760 2789/7694 2558/7028 2330/6408 3088/8844 3451/9694 7053/19586 min enc_runtime (s)</p></div>
+			</div>
+
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct coords="10,69.23,266.82,225.88,3.18;10,69.23,274.79,224.99,3.18;10,69.23,281.33,224.81,6.23;10,110.53,290.73,45.66,3.18" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">A Parametric Approach for Smaller and Better Encodings of Cardinality Constraints</title>
+		<author>
+			<persName coords=""><forename type="first">Ignasi</forename><surname>Abío</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Robert</forename><surname>Nieuwenhuis</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Albert</forename><surname>Oliveras</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Enric</forename><surname>Rodríguez-Carbonell</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/978-3-642-40627-0_9</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Lecture Notes in Computer Science</title>
+				<imprint>
+			<publisher>Springer Berlin Heidelberg</publisher>
+			<date type="published" when="2013">2013</date>
+			<biblScope unit="page" from="80" to="96" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,69.23,298.70,224.81,3.18;10,69.00,305.24,225.04,6.23;10,69.23,313.21,225.88,6.23;10,69.23,322.61,127.52,3.18" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">On Tractable XAI Queries based on Compiled Representations</title>
+		<author>
+			<persName coords=""><forename type="first">Gilles</forename><surname>Audemard</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Frédéric</forename><surname>Koriche</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Pierre</forename><surname>Marquis</surname></persName>
+		</author>
+		<idno type="DOI">10.24963/kr.2020/86</idno>
+		<ptr target="https://doi.org/10.24963/kr.2020/86" />
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the Seventeenth International Conference on Principles of Knowledge Representation and Reasoning</title>
+				<meeting>the Seventeenth International Conference on Principles of Knowledge Representation and Reasoning</meeting>
+		<imprint>
+			<publisher>International Joint Conferences on Artificial Intelligence Organization</publisher>
+			<date type="published" when="2020-07">2020</date>
+			<biblScope unit="page" from="838" to="849" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,69.23,330.58,224.81,3.18;10,69.23,337.12,224.81,6.23;10,69.23,345.09,122.72,6.23" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Efficient CNF Encoding of Boolean Cardinality Constraints</title>
+		<author>
+			<persName coords=""><forename type="first">Olivier</forename><surname>Bailleux</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Yacine</forename><surname>Boufkhad</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/978-3-540-45193-8_8</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Principles and Practice of Constraint Programming – CP 2003</title>
+				<imprint>
+			<publisher>Springer Berlin Heidelberg</publisher>
+			<date type="published" when="2003">2003</date>
+			<biblScope unit="page" from="108" to="122" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,69.23,354.49,225.99,3.18;10,69.23,361.03,224.81,6.23;10,69.23,370.43,90.56,3.18" xml:id="b3">
+	<monogr>
+		<title level="m" type="main">Declarative Approaches to Counterfactual Explanations for Classification</title>
+		<author>
+			<persName coords=""><forename type="first">Leopoldo</forename><forename type="middle">E</forename><surname>Bertossi</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:2011.07423</idno>
+		<ptr target="https://arxiv.org/abs/2011.07423" />
+		<imprint>
+			<date type="published" when="2020">2020. 2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,69.23,378.40,224.81,3.18;10,69.23,384.94,224.81,6.23;10,69.23,392.91,224.81,6.23;10,68.81,400.88,226.31,6.23" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Score-Based Explanations in Data Management and Machine Learning</title>
+		<author>
+			<persName coords=""><forename type="first">Leopoldo</forename><forename type="middle">E</forename><surname>Bertossi</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/978-3-030-58449-8_2</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Lecture Notes in Computer Science</title>
+		<title level="s">Lecture Notes in Computer Science</title>
+		<editor>
+			<persName><forename type="first">Jesse</forename><surname>Davis</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">Karim</forename><surname>Tabia</surname></persName>
+		</editor>
+		<meeting><address><addrLine>Bozen-Bolzano, Italy</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer International Publishing</publisher>
+			<date type="published" when="2020-09-23">2020. September 23-25, 2020</date>
+			<biblScope unit="volume">2020</biblScope>
+			<biblScope unit="page" from="17" to="31" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,69.23,410.28,176.33,3.18" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Score-Based Explanations in Data Management and Machine Learning</title>
+		<author>
+			<persName><forename type="first">Leopoldo</forename><surname>Bertossi</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/978-3-030-58449-8_2</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Lecture Notes in Computer Science</title>
+				<imprint>
+			<publisher>Springer International Publishing</publisher>
+			<date type="published" when="2020" />
+			<biblScope unit="page" from="17" to="31" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,69.23,416.82,225.88,6.23;10,69.00,426.22,54.74,3.18" xml:id="b6">
+	<monogr>
+		<title level="m" type="main">Handbook of Satisfiability</title>
+		<author>
+			<persName coords=""><forename type="first">Armin</forename><surname>Biere</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Marijn</forename><surname>Heule</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Hans</forename><surname>Van Maaren</surname></persName>
+		</author>
+		<idno type="DOI">10.3233/faia336</idno>
+		<imprint>
+			<date type="published" when="2009">2009</date>
+			<publisher>IOS Press</publisher>
+			<biblScope unit="volume">185</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,69.23,434.19,225.88,3.18;10,69.23,440.73,224.81,6.23;10,69.23,448.70,190.87,6.23" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">A Symbolic Approach for Counterfactual Explanations</title>
+		<author>
+			<persName coords=""><forename type="first">Ryma</forename><surname>Boumazouza</surname></persName>
+			<idno type="ORCID">0000-0002-3940-8578</idno>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Fahima</forename><surname>Cheikh-Alili</surname></persName>
+			<idno type="ORCID">0000-0002-4543-625X</idno>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Bertrand</forename><surname>Mazure</surname></persName>
+			<idno type="ORCID">0000-0002-3508-123X</idno>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Karim</forename><surname>Tabia</surname></persName>
+			<idno type="ORCID">0000-0002-8632-3980</idno>
+		</author>
+		<idno type="DOI">10.1007/978-3-030-58449-8_21</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Lecture Notes in Computer Science</title>
+				<imprint>
+			<publisher>Springer International Publishing</publisher>
+			<date type="published" when="2020">2020</date>
+			<biblScope unit="page" from="270" to="277" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,69.23,458.10,225.99,3.18;10,69.23,464.64,35.36,6.23" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Reasoning about Bayesian Network Classifiers</title>
+		<author>
+			<persName coords=""><forename type="first">H</forename><surname>Chan</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Adnan</forename><surname>Darwiche</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">UAI</title>
+				<imprint>
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,69.23,472.61,224.81,6.23;10,69.23,480.58,224.81,6.23;10,69.03,488.55,225.78,6.23;10,69.23,497.95,171.32,3.18" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Three Modern Roles for Logic in AI</title>
+		<author>
+			<persName coords=""><forename type="first">Adnan</forename><surname>Darwiche</surname></persName>
+		</author>
+		<idno type="DOI">10.1145/3375395.3389131</idno>
+		<ptr target="https://doi.org/10.1145/3375395.3389131" />
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 39th ACM SIGMOD-SIGACT-SIGAI Symposium on Principles of Database Systems</title>
+				<meeting>the 39th ACM SIGMOD-SIGACT-SIGAI Symposium on Principles of Database Systems<address><addrLine>Portland, OR, USA; New York, NY, USA</addrLine></address></meeting>
+		<imprint>
+			<publisher>ACM</publisher>
+			<date type="published" when="2020-05-29">2020</date>
+			<biblScope unit="page" from="229" to="243" />
+		</imprint>
+	</monogr>
+	<note>PODS&apos;20)</note>
+</biblStruct>
+
+<biblStruct coords="10,69.23,506.24,225.99,3.18;10,69.23,512.77,88.52,6.23" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Boosting MCSes Enumeration</title>
+		<author>
+			<persName coords=""><forename type="first">Éric</forename><surname>Grégoire</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Yacine</forename><surname>Izza</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Jean-Marie</forename><surname>Lagniez</surname></persName>
+		</author>
+		<idno type="DOI">10.24963/ijcai.2018/182</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the Twenty-Seventh International Joint Conference on Artificial Intelligence</title>
+				<meeting>the Twenty-Seventh International Joint Conference on Artificial Intelligence</meeting>
+		<imprint>
+			<publisher>International Joint Conferences on Artificial Intelligence Organization</publisher>
+			<date type="published" when="2018-07">2018</date>
+			<biblScope unit="page" from="1309" to="1315" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,69.23,522.18,224.81,3.18;10,69.03,528.71,225.79,6.23;10,69.00,538.12,50.44,3.18" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Local-search Extraction of MUSes</title>
+		<author>
+			<persName><forename type="first">Éric</forename><surname>Grégoire</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Bertrand</forename><surname>Mazure</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Cédric</forename><surname>Piette</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/s10601-007-9019-7</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Constraints</title>
+		<title level="j" type="abbrev">Constraints</title>
+		<idno type="ISSN">1383-7133</idno>
+		<idno type="ISSNe">1572-9354</idno>
+		<imprint>
+			<biblScope unit="volume">12</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="325" to="344" />
+			<date type="published" when="2007-06-09">2007</date>
+			<publisher>Springer Science and Business Media LLC</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,69.23,544.65,224.81,6.23;10,69.23,552.62,199.18,6.23" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Random decision forests</title>
+		<author>
+			<persName coords=""><forename type="first">Kam</forename><surname>Tin</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><surname>Ho</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of 3rd international conference on document analysis and recognition</title>
+				<meeting>3rd international conference on document analysis and recognition</meeting>
+		<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="1995">1995</date>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="page" from="278" to="282" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,69.23,562.03,224.81,3.18;10,69.23,568.56,224.81,6.23;10,69.23,576.53,76.04,6.23" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Binarized Neural Networks</title>
+		<author>
+			<persName coords=""><forename type="first">Itay</forename><surname>Hubara</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Matthieu</forename><surname>Courbariaux</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Daniel</forename><surname>Soudry</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Ran</forename><surname>El-Yaniv</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Yoshua</forename><surname>Bengio</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Advances in Neural Information Processing Systems</title>
+				<imprint>
+			<date type="published" when="2016">2016</date>
+			<biblScope unit="volume">29</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,69.23,585.94,224.81,3.18;10,69.23,592.47,225.58,6.23;10,69.23,601.88,225.58,3.18;10,69.23,609.85,24.81,3.18" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">SAT-Based Rigorous Explanations for Decision Lists</title>
+		<author>
+			<persName coords=""><forename type="first">Alexey</forename><surname>Ignatiev</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Joao</forename><surname>Marques-Silva</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/978-3-030-80223-3_18</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Theory and Applications of Satisfiability Testing – SAT 2021</title>
+				<editor>
+			<persName><forename type="first">Chu-Min</forename><surname>Li</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">Felip</forename><surname>Manyà</surname></persName>
+		</editor>
+		<meeting><address><addrLine>Cham</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer International Publishing</publisher>
+			<date type="published" when="2021">2021</date>
+			<biblScope unit="page" from="251" to="269" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,69.23,617.82,225.88,3.18;10,69.23,624.35,225.89,6.23;10,69.23,633.76,142.15,3.18" xml:id="b15">
+	<monogr>
+		<title level="m" type="main">Sodium Tetrapropylbenzene Sulfonate 11067-82-6</title>
+		<author>
+			<persName coords=""><forename type="first">Alexey</forename><surname>Ignatiev</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Nina</forename><surname>Narodytska</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Nicholas</forename><surname>Asher</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">João</forename><surname>Marques-Silva</surname></persName>
+		</author>
+		<idno type="DOI">10.1002/0471701343.sdp48566</idno>
+		<idno type="arXiv">arXiv:2012.11067</idno>
+		<ptr target="https://arxiv.org/abs/2012.11067" />
+		<imprint>
+			<date type="published" when="2020">2020. 2020</date>
+			<publisher>John Wiley &amp; Sons, Inc.</publisher>
+			<biblScope unit="page">11067</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,333.39,90.48,225.99,3.18;10,333.39,97.02,224.81,6.23;10,333.39,104.99,155.34,6.23" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Abduction-Based Explanations for Machine Learning Models</title>
+		<author>
+			<persName coords=""><forename type="first">Alexey</forename><surname>Ignatiev</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Nina</forename><surname>Narodytska</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Joao</forename><surname>Marques-Silva</surname></persName>
+		</author>
+		<idno type="DOI">10.1609/aaai.v33i01.33011511</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Proceedings of the AAAI Conference on Artificial Intelligence</title>
+		<title level="j" type="abbrev">AAAI</title>
+		<idno type="ISSN">2159-5399</idno>
+		<idno type="ISSNe">2374-3468</idno>
+		<imprint>
+			<biblScope unit="volume">33</biblScope>
+			<biblScope unit="issue">01</biblScope>
+			<biblScope unit="page" from="1511" to="1519" />
+			<date type="published" when="2019-07-17">2019</date>
+			<publisher>Association for the Advancement of Artificial Intelligence (AAAI)</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,333.39,114.39,225.99,3.18;10,333.39,120.93,224.81,6.23;10,333.39,128.90,76.04,6.23" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Abduction-Based Explanations for Machine Learning Models</title>
+		<author>
+			<persName coords=""><forename type="first">Alexey</forename><surname>Ignatiev</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Nina</forename><surname>Narodytska</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Joao</forename><surname>Marques-Silva</surname></persName>
+		</author>
+		<idno type="DOI">10.1609/aaai.v33i01.33011511</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Proceedings of the AAAI Conference on Artificial Intelligence</title>
+		<title level="j" type="abbrev">AAAI</title>
+		<idno type="ISSN">2159-5399</idno>
+		<idno type="ISSNe">2374-3468</idno>
+		<imprint>
+			<biblScope unit="volume">33</biblScope>
+			<biblScope unit="issue">01</biblScope>
+			<biblScope unit="page" from="1511" to="1519" />
+			<date type="published" when="2019-07-17">2019</date>
+			<publisher>Association for the Advancement of Artificial Intelligence (AAAI)</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,333.39,138.30,224.81,3.18;10,333.39,144.84,225.27,6.23;10,333.39,154.24,42.32,3.18" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Corrigendum</title>
+		<author>
+			<persName coords=""><forename type="first">Yacine</forename><surname>Izza</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Alexey</forename><surname>Ignatiev</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">João</forename><surname>Marques-Silva</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/jcmm.15632</idno>
+		<idno type="arXiv">arXiv:2010.11034</idno>
+		<ptr target="https://arxiv.org/abs/2010.11034" />
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Cellular and Molecular Medicine</title>
+		<title level="j" type="abbrev">J Cell Mol Med</title>
+		<idno type="ISSN">1582-1838</idno>
+		<idno type="ISSNe">1582-4934</idno>
+		<imprint>
+			<biblScope unit="volume">24</biblScope>
+			<biblScope unit="issue">18</biblScope>
+			<biblScope unit="page" from="11034" to="11034" />
+			<date type="published" when="2010">2020. 2010. 2020</date>
+			<publisher>Wiley</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,333.39,162.21,224.81,3.18;10,333.39,168.75,225.58,6.23;10,333.23,178.15,15.08,3.18" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Algorithms for computing minimal unsatisfiable subsets of constraints</title>
+		<author>
+			<persName coords=""><forename type="first">H</forename><surname>Mark</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Karem</forename><forename type="middle">A</forename><surname>Liffiton</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><surname>Sakallah</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Automated Reasoning</title>
+		<imprint>
+			<biblScope unit="volume">40</biblScope>
+			<biblScope unit="page" from="1" to="33" />
+			<date type="published" when="2008">2008. 2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,333.39,186.12,224.81,3.18;10,333.39,192.66,225.88,6.23;10,333.39,202.06,225.58,3.18;10,333.16,210.03,225.50,3.18;10,333.39,218.00,133.05,3.18" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">A Unified Approach to Interpreting Model Predictions</title>
+		<author>
+			<persName coords=""><forename type="first">M</forename><surname>Scott</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Su-In</forename><surname>Lundberg</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">;</forename><forename type="middle">I</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">U</forename><forename type="middle">V</forename><surname>Guyon</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">S</forename><surname>Luxburg</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">H</forename><surname>Bengio</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">R</forename><surname>Wallach</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">S</forename><surname>Fergus</surname></persName>
+		</author>
+		<ptr target="https://proceedings.neurips.cc/paper/2017/file/8a20a8621978632d76c43dfd28b67767-Paper.pdf" />
+	</analytic>
+	<monogr>
+		<title level="m">Advances in Neural Information Processing Systems</title>
+				<editor>
+			<persName><forename type="first">R</forename><surname>Vishwanathan</surname></persName>
+		</editor>
+		<editor>
+			<persName><surname>Garnett</surname></persName>
+		</editor>
+		<imprint>
+			<publisher>Curran Associates, Inc</publisher>
+			<date type="published" when="2017">2017</date>
+			<biblScope unit="volume">30</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,333.39,225.97,224.81,3.18;10,333.18,233.94,225.02,3.18;10,333.39,240.48,191.26,6.23" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Verifying Properties of Binarized Deep Neural Networks</title>
+		<author>
+			<persName coords=""><forename type="first">Nina</forename><surname>Narodytska</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Shiva</forename><surname>Kasiviswanathan</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Leonid</forename><surname>Ryzhyk</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Mooly</forename><surname>Sagiv</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Toby</forename><surname>Walsh</surname></persName>
+		</author>
+		<idno type="DOI">10.1609/aaai.v32i1.12206</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Proceedings of the AAAI Conference on Artificial Intelligence</title>
+		<title level="j" type="abbrev">AAAI</title>
+		<idno type="ISSN">2159-5399</idno>
+		<idno type="ISSNe">2374-3468</idno>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<date type="published" when="2018-04-26">2018</date>
+			<publisher>Association for the Advancement of Artificial Intelligence (AAAI)</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,333.39,248.45,224.81,6.23;10,333.39,256.42,86.74,6.23" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">A theory of diagnosis from first principles</title>
+		<author>
+			<persName coords=""><forename type="first">Raymond</forename><surname>Reiter</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/0004-3702(87)90062-2</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Artificial Intelligence</title>
+		<title level="j" type="abbrev">Artificial Intelligence</title>
+		<idno type="ISSN">0004-3702</idno>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="57" to="95" />
+			<date type="published" when="1987-04">1987. 1987</date>
+			<publisher>Elsevier BV</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,333.39,265.82,224.81,3.18;10,333.39,272.36,224.81,6.23;10,333.39,280.33,225.88,6.23;10,333.23,289.74,31.30,3.18" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Explaining the predictions of any classifier</title>
+		<author>
+			<persName coords=""><forename type="first">Marco</forename><surname>Tulio Ribeiro</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Sameer</forename><surname>Singh</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Carlos</forename><surname>Guestrin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 22nd ACM SIGKDD international conference on knowledge discovery and data mining</title>
+				<meeting>the 22nd ACM SIGKDD international conference on knowledge discovery and data mining</meeting>
+		<imprint>
+			<date type="published" when="2016">2016</date>
+			<biblScope unit="page" from="1135" to="1144" />
+		</imprint>
+	</monogr>
+	<note>Why should i trust you?</note>
+</biblStruct>
+
+<biblStruct coords="10,333.39,297.71,225.99,3.18;10,333.39,304.24,224.81,6.23;10,333.39,312.21,81.72,6.23" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Anchors: Highprecision model-agnostic explanations</title>
+		<author>
+			<persName coords=""><forename type="first">Marco</forename><surname>Tulio Ribeiro</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Sameer</forename><surname>Singh</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Carlos</forename><surname>Guestrin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the AAAI Conference on Artificial Intelligence</title>
+				<meeting>the AAAI Conference on Artificial Intelligence</meeting>
+		<imprint>
+			<date type="published" when="2018">2018</date>
+			<biblScope unit="volume">32</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,333.39,320.18,224.81,6.23;10,333.39,328.15,176.27,6.23" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">An SE-tree-based prime implicant generation algorithm</title>
+		<author>
+			<persName coords=""><forename type="first">Ron</forename><surname>Rymon</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/bf01530750</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of Mathematics and Artificial Intelligence</title>
+		<title level="j" type="abbrev">Ann Math Artif Intell</title>
+		<idno type="ISSN">1012-2443</idno>
+		<idno type="ISSNe">1573-7470</idno>
+		<imprint>
+			<biblScope unit="volume">11</biblScope>
+			<biblScope unit="issue">1-4</biblScope>
+			<biblScope unit="page" from="351" to="365" />
+			<date type="published" when="1994-03">1994. 1994</date>
+			<publisher>Springer Science and Business Media LLC</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,333.39,337.56,224.81,3.18;10,333.39,344.09,225.51,6.23;10,333.39,352.06,224.81,6.23;10,333.39,360.03,224.81,6.23;10,333.39,369.44,202.66,3.18" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">On Tractable Representations of Binary Neural Networks</title>
+		<author>
+			<persName coords=""><forename type="first">Weijia</forename><surname>Shi</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Andy</forename><surname>Shih</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Adnan</forename><surname>Darwiche</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Arthur</forename><surname>Choi</surname></persName>
+		</author>
+		<idno type="DOI">10.24963/kr.2020/91</idno>
+		<ptr target="https://doi.org/10.24963/kr.2020/91" />
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the Seventeenth International Conference on Principles of Knowledge Representation and Reasoning</title>
+				<editor>
+			<persName><forename type="first">Diego</forename><surname>Calvanese</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">Esra</forename><surname>Erdem</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">Michael</forename><surname>Thielscher</surname></persName>
+		</editor>
+		<meeting>the Seventeenth International Conference on Principles of Knowledge Representation and Reasoning<address><addrLine>Rhodes, Greece</addrLine></address></meeting>
+		<imprint>
+			<publisher>International Joint Conferences on Artificial Intelligence Organization</publisher>
+			<date type="published" when="2020-09-12">2020. September 12-18, 2020</date>
+			<biblScope unit="volume">2020</biblScope>
+			<biblScope unit="page" from="882" to="892" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,333.39,377.41,224.81,3.18;10,333.39,383.94,224.81,6.23;10,333.39,393.35,225.26,3.18;10,333.23,401.32,64.82,3.18" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">A Symbolic Approach to Explaining Bayesian Network Classifiers</title>
+		<author>
+			<persName coords=""><forename type="first">Andy</forename><surname>Shih</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Arthur</forename><surname>Choi</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Adnan</forename><surname>Darwiche</surname></persName>
+		</author>
+		<idno type="DOI">10.24963/ijcai.2018/708</idno>
+		<ptr target="https://doi.org/10.24963/ijcai.2018/708" />
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the Twenty-Seventh International Joint Conference on Artificial Intelligence</title>
+				<meeting>the Twenty-Seventh International Joint Conference on Artificial Intelligence</meeting>
+		<imprint>
+			<publisher>International Joint Conferences on Artificial Intelligence Organization</publisher>
+			<date type="published" when="2018-07">2018</date>
+			<biblScope unit="page" from="5103" to="5111" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,333.39,409.29,225.99,3.18;10,333.13,415.82,226.14,6.23;10,333.23,425.23,31.30,3.18" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Compiling Bayesian Network Classifiers into Decision Graphs</title>
+		<author>
+			<persName coords=""><forename type="first">Andy</forename><surname>Shih</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Arthur</forename><surname>Choi</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Adnan</forename><surname>Darwiche</surname></persName>
+		</author>
+		<idno type="DOI">10.1609/aaai.v33i01.33017966</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Proceedings of the AAAI Conference on Artificial Intelligence</title>
+		<title level="j" type="abbrev">AAAI</title>
+		<idno type="ISSN">2159-5399</idno>
+		<idno type="ISSNe">2374-3468</idno>
+		<imprint>
+			<biblScope unit="volume">33</biblScope>
+			<biblScope unit="issue">01</biblScope>
+			<biblScope unit="page" from="7966" to="7974" />
+			<date type="published" when="2019-07-17">2019</date>
+			<publisher>Association for the Advancement of Artificial Intelligence (AAAI)</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,333.39,433.20,224.99,3.18;10,333.39,439.73,224.81,6.23;10,333.39,447.70,93.37,6.23" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">Towards an Optimal CNF Encoding of Boolean Cardinality Constraints</title>
+		<author>
+			<persName coords=""><forename type="first">Carsten</forename><surname>Sinz</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/11564751_73</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Principles and Practice of Constraint Programming - CP 2005</title>
+				<imprint>
+			<publisher>Springer Berlin Heidelberg</publisher>
+			<date type="published" when="2005">2005</date>
+			<biblScope unit="page" from="827" to="831" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="10,333.39,457.11,225.88,3.18;10,333.39,463.64,131.44,6.23" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">On the complexity of derivation in propositional calculus</title>
+		<author>
+			<persName coords=""><surname>Grigori S Tseitin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Automation of reasoning</title>
+				<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="1983">1983</date>
+			<biblScope unit="page" from="466" to="483" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

@@ -1,0 +1,627 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Query Embedding Pruning for Dense Retrieval</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2021-08-23">23 Aug 2021</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName coords="1,141.14,113.22,84.50,11.96"><forename type="first">Nicola</forename><surname>Tonellotto</surname></persName>
+							<email>nicola.tonellotto@unipi.it</email>
+							<affiliation key="aff0">
+								<orgName type="institution">University of Pisa</orgName>
+								<address>
+									<country key="IT">Italy</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName coords="1,387.77,113.22,83.67,11.96"><forename type="first">Craig</forename><surname>Macdonald</surname></persName>
+							<email>craig.macdonald@glasgow.ac.uk</email>
+							<affiliation key="aff1">
+								<orgName type="institution">University of Glasgow</orgName>
+								<address>
+									<country key="GB">UK</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Query Embedding Pruning for Dense Retrieval</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2021-08-23">23 Aug 2021</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">60E23CD5D5B1DACAA7480C4498E79FAC</idno>
+					<idno type="arXiv">arXiv:2108.10341v1[cs.IR]</idno>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.7.2" ident="GROBID" when="2022-12-25T09:40+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>CCS CONCEPTS</term>
+					<term>Information systems → Information retrieval</term>
+					<term>Information retrieval query processing</term>
+					<term>Retrieval models and ranking Query processing</term>
+					<term>Dynamic pruning</term>
+					<term>Dense retrieval</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Recent advances in dense retrieval techniques have offered the promise of being able not just to re-rank documents using contextualised language models such as BERT, but also to use such models to identify documents from the collection in the first place. However, when using dense retrieval approaches that use multiple embedded representations for each query, a large number of documents can be retrieved for each query, hindering the efficiency of the method. Hence, this work is the first to consider efficiency improvements in the context of a dense retrieval approach (namely ColBERT), by pruning query term embeddings that are estimated not to be useful for retrieving relevant documents. Our proposed query embeddings pruning reduces the cost of the dense retrieval operation, as well as reducing the number of documents that are retrieved and hence require to be fully scored. Experiments conducted on the MSMARCO passage ranking corpus demonstrate that, when reducing the number of query embeddings used from 32 to 3 based on the collection frequency of the corresponding tokens, query embedding pruning results in no statistically significant differences in effectiveness, while reducing the number of documents retrieved by 70%. In terms of mean response time for the end-to-end to end system, this results in a 2.65× speedup.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<facsimile>
+		<surface n="1" ulx="0.0" uly="0.0" lrx="612.0" lry="792.0"/>
+		<surface n="2" ulx="0.0" uly="0.0" lrx="612.0" lry="792.0"/>
+		<surface n="3" ulx="0.0" uly="0.0" lrx="612.0" lry="792.0"/>
+		<surface n="4" ulx="0.0" uly="0.0" lrx="612.0" lry="792.0"/>
+		<surface n="5" ulx="0.0" uly="0.0" lrx="612.0" lry="792.0"/>
+	</facsimile>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">INTRODUCTION</head><p>Pretrained contextualised language models such as BERT <ref type="bibr" coords="1,269.50,566.36,10.68,8.97" target="#b1">[2]</ref> are able to successfully exploit general language features in order to capture the contextual semantic signals allowing to better estimate the relevance of documents w.r.t. a given query, leading to effective search ranking improvements when re-ranking the documents obtained from a classical inverted index <ref type="bibr" coords="1,190.57,621.16,9.30,8.97" target="#b6">[7]</ref>. Recently, representationfocused models have gained attention due to their ability to capture CIKM '21, November 1-5, 2021, Virtual Event, QLD, Australia © 2021 Association for Computing Machinery. This is the author's version of the work. It is posted here for your personal use. Not for redistribution. The definitive Version of Record was published in Proceedings of the 30th ACM International Conference on Information and Knowledge Management (CIKM '21), November 1-5, 2021, Virtual Event, QLD, Australia, https://doi.org/10.1145/3459637. 3482162. semantic information and because they allow to pre-compute document representations at indexing time, greatly reducing the query processing times <ref type="bibr" coords="1,380.86,181.28,9.29,8.97" target="#b4">[5,</ref><ref type="bibr" coords="1,392.38,181.28,6.12,8.97" target="#b8">9,</ref><ref type="bibr" coords="1,400.73,181.28,10.29,8.97" target="#b9">10,</ref><ref type="bibr" coords="1,413.26,181.28,10.09,8.97" target="#b17">18]</ref>. Representation-focused models aim at learning a function mapping a sequence of tokens, e.g., a query or a document, into one or more real-valued vectors called embeddings. These embeddings are then combined to compute a similarity score between the query and the document. Inspired by distributional word embeddings <ref type="bibr" coords="1,386.82,236.07,13.49,8.97" target="#b13">[14]</ref>, many works have adopted some pooling technique such as max-and mean-pooling to generate a single representation for a sequence of terms. However, the use of a single representation in effect compresses all possible semantic facets of the given text into a single vector. More recently, multiple representations, composed by a list of embeddings, one per term in the sequence, have been investigated <ref type="bibr" coords="1,444.74,301.82,9.44,8.97" target="#b3">[4,</ref><ref type="bibr" coords="1,456.64,301.82,6.18,8.97" target="#b4">5,</ref><ref type="bibr" coords="1,465.27,301.82,6.29,8.97" target="#b7">8]</ref>. In this case, there is a similarity score between every query term embedding and every document term embedding, and the pooling is performed when all similarity scores have been computed. Most neural ranking approaches have been used to by re-rank the documents identified by a classical inverted index using relevance models such as BM25, in a multi-stage ranking architecture <ref type="bibr" coords="1,436.24,367.58,9.23,8.97" target="#b5">[6,</ref><ref type="bibr" coords="1,447.61,367.58,10.05,8.97" target="#b12">13]</ref>. However, lexical matching models relying solely on an inverted index may not identify the contextually related candidate documents that would have been highly scored by an effective neural ranking model. Instead, by utilising documents encoded as vectors at indexing time and queries encoded as vectors at query processing time, dense retrieval approaches <ref type="bibr" coords="1,352.37,433.33,9.25,8.97" target="#b4">[5,</ref><ref type="bibr" coords="1,363.86,433.33,11.48,8.97" target="#b16">17]</ref> are of growing interest. In dense retrieval, the topranked documents for a given query are computed by identifying the most similar document embeddings to the given query embeddings, employing a nearest neighbour search procedure. Nearest neighbour search with single representations has been shown to be efficient, but less effective than multiple representations <ref type="bibr" coords="1,532.58,488.13,9.30,8.97" target="#b6">[7]</ref>. On the other hand, when multiple representations are exploited, as pioneered by Khattab and Zaharia <ref type="bibr" coords="1,442.21,510.04,9.27,8.97" target="#b4">[5]</ref>, a multi-stage dense retrieval approach can be executed, where the first stage conducts an approximate but highly efficient nearest neighbour search, retrieving documents to be exactly scored by the second stage.</p><p>However, using multiple representations for dense retrieval results in a first-stage that retrieves many documents. These documents are then re-ranked in the second stage, and the time spent in re-ranking is directly proportional to the number of documents retrieved by the first stage. Hence, the time taken to score all retrieved documents can be expensive. Instead, this paper proposes the adaptation of dynamic pruning strategies for dense retrieval. The retrieval of the most similar documents through ANN can be seen as a term-at-a-time (TAAT) set retrieval. TAAT retrieval for classical best match weighting models (such as BM25) involves the processing of all the documents in which a specific query term appears, to compute a query-document score contribution stored in each document's score accumulator <ref type="bibr" coords="1,450.31,685.39,13.33,8.97" target="#b15">[16]</ref>. Dynamic pruning strategies have been proposed to reduce the number of accumulators being created or updated. In the case of TAAT Quit dynamic pruning strategies, query processing terminates after a certain number of query terms have been processed and the top 𝑘 documents are selected from the documents processed thus far. In our query embedding pruning approach, we are inspired by TAAT Quit, by proposing to estimate which multiple query embeddings are useful for dense retrieval. Indeed, by pruning out less useful query embeddings, we can conduct faster approximate nearest neighbour search, reduce the number of documents that are retrieved by the first stage dense retrieval, and obtain a faster second-stage scoring.</p><p>In summary, this work contributes (i) a first examination of the usefulness of different query embeddings in multiple representation dense retrieval, and (ii) the novel proposition of dynamic pruning of query embeddings for dense retrieval. In particular, our experiments conducted on the MSMARCO passage ranking corpus demonstrate that, for example, when reducing the number of query embeddings used from 32 to 3, our query embedding pruning approach results in no statistically significant differences in effectiveness, while reducing the number of documents retrieved by 70%.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">DENSE RETRIEVAL</head><p>We assume that queries and documents are sequences of terms from a given vocabulary 𝑉 . Any term is represented by a real-valued vector of dimension 𝑑, called an embedding. More formally, let }. Given two embeddings, their similarity is computed by the dot product. Hence, for a query 𝑞 and a document 𝑑, their final similarity score 𝑠 (𝑞, 𝑑) is obtained by summing up the maximum similarity between the query token embeddings and document token embeddings:</p><formula xml:id="formula_0" coords="2,54.25,353.06,77.40,8.97">𝑓 𝑄 : 𝑉 𝑛 → R 𝑛×𝑑 be</formula><formula xml:id="formula_1" coords="2,124.95,497.89,169.10,27.65">𝑠 (𝑞, 𝑑) = |𝑞 | ∑︁ 𝑖=1 max 𝑗=1,..., |𝑑 | 𝜙 𝑇 𝑖 𝜓 𝑗<label>(1)</label></formula><p>The document embeddings from all documents in the collection are pre-computed through the application of the 𝑓 𝐷 learned function and stored into an index data structure for vectors supporting similarity searches. This can identify the closest vectors to a given input vector leveraging with cosine or dot product vector comparisons. Query token embeddings are computed at runtime leveraging the 𝑓 𝑄 learned function; queries may also be augmented with additional masked tokens to provide "a soft, differentiable mechanism for learning to expand queries with new terms or to re-weigh existing terms based on their importance for matching the query" <ref type="bibr" coords="2,257.45,627.45,9.39,8.97" target="#b4">[5]</ref>. <ref type="foot" coords="2,269.98,625.47,3.38,7.27" target="#foot_0">1</ref>In order to reduce the time required to compute the similarities between query and document embeddings using Eq. (1), it is possible to shift from an exact to an approximate nearest neighbour (ANN) search. With ANN, the document embeddings are stored in a quantised form, suitable for fast searching. However, the approximate similarity scores between these compressed embeddings are inaccurate, and hence are not used for computing the final top documents. Indeed, ANN search computes, for each query embedding </p><formula xml:id="formula_2" coords="2,346.93,138.08,4.50,5.01">= " &gt; A A A B 9 X i c b V C 7 T s N A E F y H V w i v A C X N i Q g p V W S j I C g j 0 V A m g j y k x I r O l 0 0 4 5 f z Q 3 R o U R f k E W q j o E C 3 f Q 8 G / Y B s X k D D V a G Z X O z t e p K Q h 2 / 6 0 C m v r G 5 t b x e 3 S z u 7 e / k H 5 8 K h j w l g L b I t Q h b r n c Y N K B t g m S Q p 7 k U b u e w q 7 3 v Q 6 9 b s P q I 0 M g z u a R e j 6 f B L I s R S c E u l 2 P G w N y x W 7 Z m d g q 8 T J S Q V y N I f l r 8 E o F L G P A Q n F j e k 7 d k T u n G u S Q u G i N I g N R l x M + Q T 7 C Q 2 4 j 8 a d Z 1 E X 7 C w 2 n E I W o W Z S s U z E 3 x t z 7 h s z 8 7 1 k 0 u d 0 b 5 a 9 V P z P 6 8 c 0 v n L n M o h i w k C k h 0 g q z A 4 Z o W X S A b K R 1 E j E 0 + T I Z M A E 1 5 w I t W R c i E S M k 1 J K S R / O 8 v e r p H N e c + q 1 i 1 a 9 0 q j m z R T h B E 6 h C g 5 c Q g N u o A l t E D C B J 3 i G F + v R e r X e r P e f 0 Y K V 7 x z D H 1 g f 3 8 K r k i E = &lt; / l a t e x i t &gt;</formula><p>|q| &lt; l a t e x i t s h a 1 _ b a s e 6 4 = " A o 7 w q G S p v h P P 5        𝜙 𝑖 , the set Ψ(𝜙 𝑖 , 𝑘 ) of the 𝑘 ′ document embeddings most similar to 𝜙 𝑖 according to some approximate distance; then, these document embeddings are mapped back to their documents 𝐷 𝑖 (𝑘 ′ ):</p><formula xml:id="formula_3" coords="2,389.31,106.51,7.61,51.38">t P E M A a T W Y h t d T M = " &gt; A A A B / H i c b V C 7 T s N A E D y H V w i v A C X N i Q i J K r J R E J S R a C i D R B 4 i s a L z Z Z O c c j 6 b u z V S 5 I S v o I W K D t H y L x T 8 C 7 Z x A Q l T j W Z 2 t b P j h V I Y t O 1 P q 7 C y u r a + U d w s b W 3 v 7 O 6 V 9 w 9 a J o g 0 h y Y P Z K A 7 H j M g h Y I m C p T Q C T U w 3 5 P Q 9 i Z X q d 9 + A G 1 E o G 5 x G o L r s 5 E S Q 8 E Z J t J d L x y L f j y 7 n 8 3 7 5 Y p d t T P Q Z e L k p E J y N P r l r 9 4 g 4 J E P C r l k x n Q d O 0 Q 3 Z h o F l z A v 9 S I D I e M T N o J u Q h X z w b h x l n h O T y L D M K A h a C o k z U T 4 v R E z 3 5 i p 7 y W T P s O x W f R S 8 T + v G + H w 0 o 2 F C i M E x d N D K C R k h w z X I q k C 6 E B o Q G R p c q B C U c 4 0 Q w Q t K O M 8 E a O k m 1 L S h 7 P 4 / T J p n V W d W v X 8 p l a p 0 7 y Z I j k i x + S U O O S C 1 M k 1 a Z A m 4 U S R J / J M X q x H 6 9 V 6 s 9 5 / R g t W v n N I / s D 6 + A b w j Z W m &lt; / l a t e x i t &gt; 1 &lt; l a t e x i t s h a 1 _ b a s e 6 4 = " j n 0 I W t C p 5 3 I w W u M D 2 d M P y x s L k L E = " &gt; A A A B + n i c b V C 7 T s N A E D y H V w i v A C X N i Q i J K r J R E J S R a C i D R B 5 S Y k X n y y Y 5 5 X w + 3 a 2 R I p O f o I W K D t H y M x T 8 C 7 Z x A Q l T j W Z 2 t b M T a C k s u u 6 n U 1 p b 3 9 j c K m 9 X d n b 3 9 g + q h 0 c d G 8 W G Q 5 t H M j K 9 g F m Q Q k E b B U r o a Q M s D C R 0 g 9 l N 5 n c f w F g R q X u c a / B D N l F i L D j D V O o N 9 F Q M E 2 8 x r N b c u p u D r h K v I D V S o D W s f g 1 G E Y 9 D U M g l s 7 b v u R r 9 h B k U X M K i M o g t a M Z n b A L 9 l C o W g v W T P O + C n s W W Y U Q 1 G C o k z U X 4 v Z G w 0 N p 5 G K S T I c O p X f Y y 8 T + v H + P 4 2 k + E 0 j G C 4 t k h F B L y Q 5 Y b k R Y B d C Q M I L I s O V C h K G e G I Y I R l H G e i n H</formula><formula xml:id="formula_4" coords="2,390.48,127.45,2.49,4.38">s E R 1 m s K u Y = " &gt; A A A B + n i c b V C 7 T s N A E D z z D O E V o K Q 5 E S F R R X Y U B G U k G s o g k Y e U W N H 5 s k l O O Z 9 P d 2 u k y O Q n a K G i Q 7 T 8 D A X / g m 1 c Q M J U o 5 l d 7 e w E W g q L r v v p r K 1 v b G 5 t l 3 b K u 3 v 7 B 4 e V o + O O j W L D o c 0 j G Z l e w C x I o a C N A i X 0 t A E W B h K 6 w e w m 8 7 s P Y K y I 1 D 3 O N f g h m y g x F p x h K v U G e i q G S X 0 x r F T d m p u D r h K v I F V S o D W s f A 1 G E Y 9 D U M g l s 7 b v u R r 9 h B k U X M K i P I g t a M Z n b A L 9 l C o W g v W T P O + C n s e W Y U Q 1 G C o k z U X 4 v Z G w 0 N p 5 G K S T I c O p X f Y y 8 T + v H + P 4 2 k + E 0 j G C 4 t k h F B L y Q 5 Y b k R Y B d C Q M I L I s O V C h K G e G I Y I R l H G e i n H a T D n t w 1 v + f p V 0 6 j W v U b u 8 a 1 S b t G i m R E 7 J G b k g H r k i T X J L W q R N O J H k i T y T F + f R e X X e n P e f 0 T W n 2 D k h f + B 8 f A O 6 L J R b &lt; / l a t</formula><formula xml:id="formula_5" coords="2,517.51,101.34,18.15,14.37">D1(k 0 ) &lt; l a t e x i t s h a 1 _ b a s e 6 4 = " o B L 5 H Q E O m h w p N O J O v X M k h 9 j 1 b + A = " &gt; A A A B + 3 i c b V C 7 T s N A E D y H V w i v A C X N i Q g R m s h G Q V B G g o I y S O S B E i s 6 X z b h l D v b u l s j R Z a / g h Y q O k T L x 1 D w L 9 j G B Q S m G s 3 s a m f H C 6 U w a N s f V m l p e W V 1</formula><formula xml:id="formula_6" coords="2,511.01,109.46,18.15,17.37">q I w L / F e Q i u Y l N f T A R n m E p 3 V 6 P Y S e q z 4 5 N R t W Y 3 7 B z 0 L 3 E K U i M F 2 q P q 5 3 A c 8 E i B j 1 w y Y w a O H a I b M 4 2 C S 0 g q w 8 h A y P i M T W G Q U p 8 p M G 6 c B 0 7 o U W Q Y B j Q E T Y W k u Q g / N 2 K m j J k r L 5 1 U D O / N o p e J / 3 m D C C c X b i z 8 M E L w e X Y I h Y T 8 k O F a p E 0 A H Q s N i C x L D l T 4 l D P N E E E L y j h P x S i t p p L 2 4 S x + / 5 d 0 T x t O s 3 F 2 0 6 y 1 a N F M m R y Q Q 1 I n D j k n L X J N 2 q R D O F H k k T y R Z y u x X q x X 6 + 1 7 t G Q V O / v k F 6 z 3 L y a U k + 4 = &lt; / l a t e x i t &gt; D2(k 0 ) &lt; l a t e x i t s h a 1 _ b a s e 6 4 = " b H 5 b 1 N E N T s e y f L b k A u p N 1 F z q Z R 0 = " &gt; A A A B + 3 i c b V C 7 T s N A E D y H V w i v A C X N i Q g R m s i O g q C M B A V l k M g D J V F 0 v m z C K X e 2 d b d G i i x / B S 1 U d I i W j 6 H g X 7 C N C 0 i Y a j S z q 5 0 d N 5 D C o G 1 / W o W V 1 b X 1 j e J m a W t 7 Z 3 e v v H / Q M X</formula><formula xml:id="formula_7" coords="2,511.01,120.57,2.43,6.25">C f W Y A j O M s s A x P Q k N Q 5 8 G o K m Q N B P h 9 0 b E l D F z 5 S a T i u G D W f R S 8 T + v H + L k c h g J L w g R P J 4 e Q i E h O 2 S 4 F k k T Q M d C A y J L k w M V H u V M M 0 T Q g j L O E z F M q i k l f T i L 3 y + T T r 3 m N G r n t 4 1 K k + b N F M k R O S Z V 4 p A L 0 i Q 3 p E X</formula><formula xml:id="formula_8" coords="2,518.65,154.45,2.43,6.25">P i a V t I L 4 i L 3 y k o = " &gt; A A A B / X i c b V C 7 T s N A E D y H V w i v A C X N i Q g R m s h G Q V B G g o I y S O Q h O V Z 0 v m z C K e c</formula><formula xml:id="formula_9" coords="2,495.98,213.89,3.92,7.53">K o = " &gt; A A A B 8 3 i c b V C 7 T s N A E D y H V w i v A C X N i Y B E F d k o C M p I N J S J R B 5 S Y k X n y y a c c j 5 b d 3 t I k Z U v o I W K D t H y Q R T 8 C 7 Z x A Q l T j W Z 2 t b M T x F I Y d N 1 P p 7 S 2 v r G 5 V d 6 u 7 O z u 7 R 9 U D 4 + 6 J r K a Q 4 d H M t L 9 g B m Q Q k E H B U r o x x p Y G E j o B b P b z O 8 9 g j Y i U v c 4 j 8 E P 2 V S J i e A M U 6 k 9 G 1 V r b t 3 N Q V e J V 5 A a K d A a V b + G 4 4 j b E B R y y Y w Z e G 6 M f s I 0 C i 5 h U R l a A z H j M z a F Q U o V C 8 H 4 S R 5 0 Q c + t Y R j R G D Q V k u Y i / N 5 I W G j M P A z S y Z D h g 1 n 2 M v E / b 2 B x c u M n Q s U W Q f H s E A o J + S H D t U g b A D o W G h B Z l h y o U J Q z z R B B C 8 o 4 T 0 W b V l J J + / C W v 1 8 l 3 c u 6 1 6 h f t R u 1 5 l n R T J m c k F N y Q T x</formula><formula xml:id="formula_10" coords="2,360.06,272.51,155.72,11.09">𝐷 (𝑘 ′ ) = {𝑑 ∈ 𝐷 : 𝑓 𝐷 (𝑑) ∩ Ψ(𝜙 𝑖 , 𝑘 ′ ) ≠ ∅}</formula><p>(2) and finally the union 𝐷 (𝑘 ′ ) of these sets is returned:</p><formula xml:id="formula_11" coords="2,403.57,300.26,154.64,27.65">𝐷 (𝑘 ′ ) = |𝑞 | 𝑖=1 𝐷 𝑖 (𝑘 ′ )<label>(3)</label></formula><p>Once the approximate nearest documents 𝐷 (𝑘 ′ ) have been identified, they are exploited to compute the final list of top 𝑘 documents to be returned. To this end, the set of documents 𝐷 (𝑘 ′ ) is re-ranked using the query embeddings and the documents' multiple embeddings to produce exact scores that determine the final ranking. Figure <ref type="figure" coords="2,353.64,386.39,4.20,8.97" target="#fig_7">1</ref> summarises the dense retrieval architecture described above. At the time of writing, ColBERT <ref type="bibr" coords="2,470.36,397.35,10.68,8.97" target="#b4">[5]</ref> is the only effective dense retrieval system exploiting the multiple representations for queries and documents proposed thus far, exhibiting higher effectiveness than dense retrieval based on single query and document representations such as ANCE <ref type="bibr" coords="2,431.35,441.18,14.72,8.97" target="#b16">[17]</ref> (see <ref type="bibr" coords="2,464.70,441.18,9.33,8.97" target="#b6">[7,</ref><ref type="bibr" coords="2,476.27,441.18,30.39,8.97">Table 27</ref> </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>vs. Table 28]).</head><p>To illustrate the challenges of using the multiple representationfocused dense retrieval, we analyse the performance of the Col-BERT end-to-end dense retrieval system by varying the number of processed query embeddings, summarising the main limitations identified by our analysis. All experiments are conducted on the MSMARCO Passage Ranking corpus; effectiveness results are reported on the 43 TREC 2019 Deep Learning track queries -our experimental setup is detailed later in Section 4.</p><p>ColBERT uses 32 representations for each query. Assuming that we order them in their order of occurrence, we can measure the resulting effectiveness if only a subset of these embedding were used. Figure <ref type="figure" coords="2,363.52,572.69,4.09,8.97" target="#fig_8">2</ref> demonstrates the resulting effectiveness measures in term of normalised discounted cumulative gain (nDCG@10), mean average precision (MAP), mean number of relevant documents retrieved, and mean number of documents retrieved. In each graph, the x-axis represents the number of query embeddings used, based on their order of occurrence: CLS, query tokens, masked tokens.</p><p>From Figure <ref type="figure" coords="2,375.37,638.44,3.10,8.97" target="#fig_8">2</ref>, it can be seen that effectiveness across all three measures (nDCG@10, MAP and number of relevant retrieved) rises as more query embeddings are deployed. With only one query embedding (i.e. CLS), effectiveness on all measures is low<ref type="foot" coords="2,530.14,669.33,3.38,7.27" target="#foot_1">2</ref> . Effectiveness in terms of nDCG@10 and MAP rises quickly before stabilising, with 6-8 embeddings appearing to be sufficient for nDCG@10 (Figure <ref type="figure" coords="3,80.58,191.03,2.96,8.97" target="#fig_8">2</ref>(a)), and 10-12 being sufficient for MAP (Figure <ref type="figure" coords="3,250.74,191.03,12.21,8.97" target="#fig_8">2(b)</ref>). In contrast, the number of relevant documents continues to rise, but more slowly after 12 embeddings (Figure <ref type="figure" coords="3,178.56,212.95,11.66,8.97" target="#fig_8">2(c)</ref>). This increased recall comes at a cost of retrieving more documents, with an average 1000 more documents being retrieved when moving from 15 embeddings to 32 (Figure <ref type="figure" coords="3,81.30,245.82,12.15,8.97" target="#fig_8">2(d)</ref>). Indeed, while the recall of the retrieved document set is increased, it is apparent that these additional relevant documents are not promoted to the top ranks of the final ranking, and hence there is no benefit to the (top heavy) nDCG@10 or MAP measures.</p><p>In short, our analysis shows that not all query embeddings are needed for effective retrieval -indeed, this implies that some query embeddings can be ignored without negatively impacting the effectiveness of the whole system. Moreover, many documents are retrieved by each query embedding -the ramification is that all encoded document embeddings must be stored in memory, as many documents must be scored by the exact ranker to obtain effective results. Finally, less new documents are retrieved by later query (masked) embeddings, as these embeddings are reduntant w.r.t. to earlier embeddings. In order to address the aforementioned limitations, we aim to use less query embeddings for effective and efficient dense retrieval. Indeed, we desire high effectiveness with less query embeddings. In the next section we discuss how dynamic pruning can be exploited in dense retrieval to increase efficiency without negatively impacting effectiveness.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">QUERY EMBEDDING PRUNING</head><p>As we have shown in Section 2, the query embeddings do not contribute equally to the final effectiveness of the retrieved document set. We argue that not every query embedding will bring useful documents for retrieval, even if each query embedding well represents the context of the query term. Hence, we propose to adapt the TAAT Quit dynamic pruning strategy to Equation (3). TAAT query processing, as well as its dynamic pruning strategies, orders the query terms by relative importance, e.g., inverse document frequency, such that the rarest query term was executed first. This is motivated by the fact that in best match weighting models the rarest query terms appearing in a document contribute most to the final document score, compared to more common terms. Similarly, we postulate that the most important query tokens 3 are more likely to bring relevant documents than non-relevant documents, and therefore we propose to prune (remove) the unimportant query embeddings. Indeed, Formal et al. <ref type="bibr" coords="3,73.80,644.34,10.55,8.97" target="#b2">[3]</ref> noted that exact matches and the more important terms contribute more to the overall ColBERT scores; we argue that these terms are those that should be the focus of the ANN search.</p><p>We propose the following query embedding pruning strategy to compute the results of the ANN search in conjunction with Eq. ( <ref type="formula" coords="3,286.38,688.18,2.90,8.97">2</ref>): 3 While we use the notion of terms and tokens, these could be wordpieces as identified by the BERT tokeniser.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>𝐷 (𝑘</head><formula xml:id="formula_12" coords="3,417.85,202.00,140.35,25.67">′ ) = 𝑝 𝑖=1 𝐷 𝑖 (𝑘 ′ ).<label>(4)</label></formula><p>According to Eq. ( <ref type="formula" coords="3,382.72,231.12,2.86,8.97" target="#formula_12">4</ref>), in query embedding pruning, the ANN search does not compute the set of retrieved documents to be re-ranked over all query embeddings, but it only processes the 𝑝 most important query embeddings, and computes the 𝑘 ′ document embeddings most similar to those only. Note that query embeddings are only pruned for the first ANN stage, and are restored for the exact scoring stage. Our approach ignores the less important query embeddings, thus, as a consequence, lesser query embeddings processed in ANN search will generate lesser documents to be re-ranked using all document embeddings. The identification of the most important query tokens requires a concept of ordering among query embeddings.</p><p>A natural way to rank the query embeddings is to order them by ascending order of frequency in the collection of the corresponding query tokens. This is akin to the ordering of query terms in TAAT by IDF. We denote this ranking of query embeddings as Inverse Collection Frequency (ICF) <ref type="foot" coords="3,418.54,393.51,3.38,7.27" target="#foot_2">4</ref> , and postulate that the frequency in the collection of the query token corresponding to a query embedding is inversely proportional to its importance in identifying relevant documents. Note that special tokens such as CLS and the masked tokens do not correspond to any document token, hence they are placed after the query embeddings corresponding to actual wordpieces, CLS then masked tokens.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">EXPERIMENTS</head><p>Our experiments make use the MSMARCO passage ranking dataset and the PyTerrier IR experimentation platform <ref type="bibr" coords="3,487.52,507.69,13.40,8.97" target="#b10">[11,</ref><ref type="bibr" coords="3,503.13,507.69,10.05,8.97" target="#b11">12]</ref>. We use the ColBERT implementation provided by the authors <ref type="foot" coords="3,496.94,516.66,3.38,7.27" target="#foot_3">5</ref> , which we have extended <ref type="foot" coords="3,350.48,527.62,3.38,7.27" target="#foot_4">6</ref> . We follow <ref type="bibr" coords="3,397.20,529.61,10.42,8.97" target="#b4">[5]</ref> for the settings of ColBERT; the resulting document embeddings index is 176 GB. The FAISS ANN index is trained on a randomly selected 5% sample of the document embeddings. The resulting FAISS index is 16 GB. ANN search is performed on the 10 partitions most similar to the given input embeddings. For evaluating effectiveness, we use the available querysets with relevance assessments: the official small version of the MSMARCO Dev set, consisting of 6,980 queries with on average 1.1 judgements per query, as well as the TREC 2019 queryset, which contains 43 queries with an average of 215.3 judgements per query<ref type="foot" coords="3,487.64,626.25,3.38,7.27" target="#foot_5">7</ref> . To measure effectiveness, we employ MRR@10 for the MSMARCO Dev queryset, and the MRR@10, nDCG@10 and MAP for the TREC queryset. We compare our results to the default setting of dense retrieval of ColBERT, using all 32 query embeddings, and retrieving 𝑘 ′ = 1000 documents for each query embedding. In conducting our experiments addressing the efficiency, we determine the success of our query embeddings pruning strategy based on ICF 8 , compared to the baseline approach, called First, by demonstrating that for a fixed number of embeddings, it attains effectiveness that is not significantly different from that of the default setting, while resulting in less documents being retrieved and re-scored by ColBERT's second-stage. The red and blue curves in Figure <ref type="figure" coords="4,197.82,353.14,4.25,8.97" target="#fig_9">3</ref> correspond to selecting query embeddings based on their order in the query (denoted First) and based on collection frequency (denoted ICF). In general, from each of the figures, we can see that first (red) curve always exhibits lower effectiveness with a similar number of documents retrieved. For instance, when using one query embedding, on MSMARCO Dev, First retrieves on average 824 documents and achieves an MRR@10 of 0.2165; in contrast, ICF retrieves less documents (724) and achieves a higher MRR@10 (0.3229). Similar trends are observed for nDCG@10 and MAP on the TREC 2019 query set, where effectiveness is always increased by using ICF compared to First, while retrieving a similar number of documents (689 for First vs. 880 for ICF). Moreover, ICF exhibits less statistically significant differences in effectiveness compared to First.</p><p>In general, the higher effectiveness of ICF over First is apparent for larger number of query embeddings, and effectiveness saturates at less query embeddings retrieving less documents: for instance, for nDCG@10 and MAP on TREC 2019 (Figures <ref type="figure" coords="4,233.74,539.45,10.31,8.97" target="#fig_9">3(a</ref>) and 3(b)), at 𝑝 = 2, ICF reaches the same values as the full ColBERT retrieval with 32 query embeddings, but re-ranking 1367 documents only on average, while First needs at least 𝑝 = 8 query embeddings and 4441 documents on average. On MSMARCO Dev (Figures <ref type="figure" coords="4,241.01,583.28,8.74,8.97" target="#fig_9">3(c</ref>)), MRR@10 reaches the value of the full ColBERT retrieval with just the 𝑝 = 3 query embeddings with the highest ICF score. When reducing 𝑝 from 32 to 3, we decrease the number of documents retrieved by the first stage by 70%, e.g., from ∼7000 to ∼2000. In terms of mean response time for the end-to-end to end system, this results in a reduction from 461.4ms to 173.7ms , i.e., a 2.65× speedup.</p><p>Note that the mean number of masked tokens in both query sets is 22.2, and, correspondingly, the average number of wordpieces per query is 9.8. In First, the query embeddings of the masked tokens appear last, hence their impact on the average effectiveness across all metrics is negligible. In ICF, all special tokens (e.g. CLS &amp; MASK), 8 We do not report results using IDF since they match those obtained by using ICF. appear last; in this case, the query embedding corresponding to the CLS token (on average the ∼10th query embedding under ICF) does not contribute to the final effectiveness if the original query word tokens are used first. Overall, we conclude from Figure <ref type="figure" coords="4,515.92,298.35,4.09,8.97" target="#fig_9">3</ref> that using the collection frequency of the query tokens can be used as indicator of the importance of the corresponding query embeddings, and our proposed query embedding pruning strategy with 3 embeddings can obtain effectiveness results with no statistical significant differences w.r.t the original system using all query embeddings. Indeed, the lower frequency tokens are more discriminative, and their query embeddings retrieve most of the relevant documents. This conclusion aligns well with the use of measures such as IDF in deciding on the most informative query terms for TAAT dynamic pruning.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5">CONCLUSIONS</head><p>In this paper, we identified efficiency challenges concerning the use of multiple embedding representations of queries and documents for dense retrieval. We proposed query embedding pruning, and demonstrated that a subset of the original query embeddings can be used for effective retrieval while reducing the number of document requiring to be exactly scored. For example, when reducing the number of query embeddings used from 32 to 3, our approach results in no statistically significant differences in effectiveness, while reducing the number of documents retrieved and fully scored by 70%. In terms of mean response time for the end-to-end to end system, this results in a 2.65× speedup. The results in this paper give rise to several possible direction of future work. The effectiveness of pruning suggests that adapting static pruning <ref type="bibr" coords="4,503.04,556.81,10.68,8.97" target="#b0">[1]</ref> to work on embedding-based document representations before approximate nearest neighbour search may also have potential. Moreover, query embedding pruning can be applied selectively <ref type="bibr" coords="4,484.21,589.68,13.22,8.97" target="#b14">[15]</ref>, with a different number of embeddings selected for different queries.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0" coords="2,337.95,84.82,27.97,7.15;2,385.78,86.52,15.68,7.15;2,378.25,94.36,30.73,7.15;2,485.58,92.08,54.79,7.15;2,483.91,208.54,46.72,7.15;2,346.75,130.44,8.01,7.69;2,346.93,138.08,4.50,5.01"><head></head><label></label><figDesc>t e x i t s h a 1 _ b a s e 6 4 = " 9 J s m C k 5 3 V M 2 z R o a 0 s P M i I v y H S H I</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1" coords="2,390.48,110.33,2.49,4.38;2,394.43,123.62,2.49,4.38;2,390.48,127.45,2.49,4.38"><head></head><label></label><figDesc>a T C X t w 1 v + f p V 0 L u p e o 3 5 5 1 6 g 1 a d F M m Z y Q U 3 J O P H J F m u S W t E i b c C L J E 3 k m L 8 6 j 8 + q 8 O e 8 / o y W n 2 D k m f + B 8 f A O 4 n J R a &lt; / l a t e x i t &gt; 2 &lt; l a t e x i t s h a 1 _ b a s e 6 4 = " M p s a y G L K e g s o y g U j g 0</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2" coords="2,517.51,109.46,2.43,6.25"><head></head><label></label><figDesc>r b x e 2 d j c 2 t 6 p 7 u 5 1 T R B p D h 0 e y E D 3 P W Z A C h 8 6 K F B C P 9 T A l C e h 5 8 0 u M 7 / 3 A N</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3" coords="2,511.01,120.57,2.43,6.25"><head></head><label></label><figDesc>6 o O b S 5 L 3 3 d c 5 k B K T x o o 0 A J v U A D U 6 6 E r j u 7 S v 3 u I 2 g j f O 8 O 5 w E M F Z t 6 Y i I 4 w 0 S 6 v x 5 F 9 b g 6 O z 0 b l S t 2 z c 5 A l 4 m T k w r J 0 R q V v w Z j n 4 c K P O S S G d N 3 7 A C H E d M o u I S 4 N A g N B I z P 2 B T 6</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4" coords="2,511.01,120.57,2.43,6.25;2,518.55,146.05,20.97,11.29;2,518.65,154.45,2.43,6.25"><head></head><label></label><figDesc>a h B N F n s g z e b F i 6 9 V 6 s 9 5 / R g t W v n N I / s D 6 + A Y o K J P v &lt; / l a t e x i t &gt; D |q| (k 0 ) &lt; l a t e x i t s h a 1 _ b a s e 6 4 = " s b m c d m d Z u h K q u</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5" coords="2,518.65,154.45,2.43,6.25;2,495.85,207.98,3.92,7.53;2,495.98,213.89,3.92,7.53"><head></head><label></label><figDesc>H d 2 u k y I n 4 C l q o 6 B A t 3 0 L B v 2 A b F 5 A w 1 W h m V z s 7 b i i F R t P 8 N A p L y y u r a 8 X 1 0 s b m 1 v Z O e X e v r Y N I c W j x Q A a q 6 z I N U v j Q Q o E S u q E C 5 r k S O u 7 4 M v U 7 D 6 C 0 C P x b n I T g e G z k i 6 H g D B P J v u r H 0 / v p r D o + P u m X K 2 b N z E A X i Z W T C s n R 7 J e / e o O A R x 7 4 y C X T 2 r b M E J 2 Y K R R c w q z U i z S E j I / Z C O y E + s w D 7 c R Z 5 B k 9 i j T D g I a g q J A 0 E + H 3 R s w 8 r S e e m 0 x 6 D O / 0 v J e K / 3 l 2 h M M L J x Z + G C H 4 P D 2 E Q k J 2 S H M l k i 6 A D o Q C R J Y m B y p 8 y p l i i K A E Z Z w n Y p S U U 0 r 6 s O a / X y T t 0 5 p V r 5 3 d 1 C s N m j d T J A f k k F S J R c 5 J g 1 y T J m k R T g L y R J 7 J i / F o v B p v x v v P a M H I d / b J H x g f 3 2 C 3 l T o = &lt; / l a t e x i t &gt; k &lt; l a t e x i t s h a 1 _ b a s e 6 4 = " i 0 x N O 4 K / l y x 6 f w / x S l l G H 7 1 6 +</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6" coords="2,495.98,213.89,3.92,7.53;2,438.66,129.35,26.30,7.15;2,438.89,137.19,25.85,7.15;2,436.45,145.04,30.73,7.15;2,440.45,167.30,23.06,7.15;2,438.24,179.24,27.14,7.15;2,436.45,187.08,30.73,7.15"><head></head><label></label><figDesc>y T Z r k j r R I h 3 A C 5 I k 8 k x f H O q / O m / P + M 1 p y i p 1 j 8 g f O x z d r 2 J F e &lt; / l a t e x i t &gt;</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7" coords="2,361.82,224.75,152.53,7.70;2,418.08,96.24,66.67,66.67"><head>Figure 1 :</head><label>1</label><figDesc>Figure 1: Dense retrieval architecture.</figDesc><graphic coords="2,418.08,96.24,66.67,66.67" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8" coords="3,87.38,169.41,399.73,7.70;3,488.08,166.64,36.54,10.14"><head>Figure 2 :</head><label>2</label><figDesc>Figure 2: TREC 2019 deep learning track effectiveness for various numbers of query embeddings (𝑘 ′ = 1000).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_9" coords="4,53.80,205.50,504.40,7.70;4,53.52,216.45,504.93,7.70;4,53.80,226.92,504.70,8.20;4,53.62,237.88,31.81,7.86;4,86.40,235.61,323.66,10.47"><head>Figure 3 :</head><label>3</label><figDesc>Figure3: Effectiveness vs. number of retrieved documents as the number of query embeddings 𝑝 is varied for the baseline (First) and our proposed query embedding pruning (ICF). From left to right, each point on each curve is one additional query embedding, i.e. 𝑝 = 1, 2, .., 32. Hollow points denote a statistically significant difference in effectiveness compared to ColBERT 𝑝 = 32, 𝑘 ′ = 1000, according to a paired t-test with Bonferroni correction (p-value &lt; 0.05).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0" coords="2,53.08,353.06,242.48,98.08"><head></head><label></label><figDesc>a learned function mapping a given query term 𝑡 𝑖 in a query of 𝑛 terms to the query embedding 𝜙 𝑖 , i.e., {𝜙 1 , . . . , 𝜙 𝑛 } = 𝑓 𝑄 (𝑡 1 , . . . , 𝑡 𝑛 ). Similarly, let 𝑓 𝐷 : 𝑉 𝑛 → R 𝑛×𝑑 be a (potentially different) learned function mapping a given document term 𝑡 𝑗 in a document of 𝑛 terms to the document embedding 𝜓 𝑗 , i.e., {𝜓 1 , . . . ,𝜓 𝑛 } = 𝑓 𝐷 (𝑡 1 , . . . , 𝑡 𝑛 ). Hence, a query 𝑞 composed by |𝑞| tokens is represented by |𝑞| query embeddings {𝜙 1 , . . . , 𝜙 |𝑞 | }. Analogously, a given document 𝑑 composed by |𝑑 | tokens is represented by |𝑑 | document embeddings {𝜓 1 , . . . ,𝜓 |𝑑 |</figDesc><table /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1" coords="2,333.52,101.56,138.88,30.27"><head></head><label></label><figDesc>e x i t &gt;</figDesc><table coords="2,333.52,101.56,138.88,29.51"><row><cell></cell><cell>Approximate</cell></row><row><cell>Learned query representation</cell><cell>nearest neighbour search</cell></row></table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="1" xml:id="foot_0">In current practice<ref type="bibr" coords="2,114.91,734.99,7.31,6.97" target="#b4">[5]</ref>, queries are augmented up to 32 query token embeddings.</note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="2" xml:id="foot_1">This is probably as the CLS embedding encodes less information in ColBERT than in a single-representation dense retrieval approach such as ANCE</note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="4" xml:id="foot_2">Collection frequency is usually correlated with document frequency. Indeed, in our initial experiments we find that ICF and IDF result in almost identical orderings of query terms, and hence only ICF is reported.</note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="5" xml:id="foot_3"><ref type="bibr" coords="3,409.68,704.14,2.55,5.48" target="#b4">5</ref> https://github.com/stanford-futuredata/</note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="6" xml:id="foot_4">ColBERT  6  https://github.com/terrierteam/</note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="7" xml:id="foot_5">pyterrier_colbert<ref type="bibr" coords="3,481.06,713.55,2.55,5.48" target="#b6">7</ref> Additional experiments conducted on TREC 2020 confirmed our results.</note>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>ACKNOWLEDGEMENTS</head><p>Nicola Tonellotto was partially supported by the Italian Ministry of Education and Research (MIUR) in the framework of the CrossLab project (Departments of Excellence). Craig Macdonald acknowledges EPSRC grant EP/R018634/1: Closed-Loop Data Science for Complex, Computationally-&amp; Data-Intensive Analytics.</p></div>
+			</div>
+
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct coords="4,333.39,716.06,225.58,6.97;4,333.19,724.03,225.01,6.97;5,69.23,88.42,113.56,6.97" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Static index pruning for information retrieval systems</title>
+		<author>
+			<persName coords=""><forename type="first">David</forename><surname>Carmel</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Doron</forename><surname>Cohen</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Ronald</forename><surname>Fagin</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Eitan</forename><surname>Farchi</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Michael</forename><surname>Herscovici</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Yoelle</forename><forename type="middle">S</forename><surname>Maarek</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Aya</forename><surname>Soffer</surname></persName>
+		</author>
+		<idno type="DOI">10.1145/383952.383958</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 24th annual international ACM SIGIR conference on Research and development in information retrieval - SIGIR &apos;01</title>
+				<meeting>the 24th annual international ACM SIGIR conference on Research and development in information retrieval - SIGIR &apos;01</meeting>
+		<imprint>
+			<publisher>ACM Press</publisher>
+			<date type="published" when="2001">2001</date>
+			<biblScope unit="page" from="43" to="50" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="5,69.23,96.39,225.64,6.97;5,69.23,104.36,224.81,6.97;5,69.23,112.96,38.22,6.23" xml:id="b1">
+	<analytic>
+		<title level="a" type="main"></title>
+		<author>
+			<persName coords=""><forename type="first">Jacob</forename><surname>Devlin</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Ming-Wei</forename><surname>Chang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Kenton</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Kristina</forename><surname>Toutanova</surname></persName>
+		</author>
+		<idno type="DOI">10.18653/v1/n19-1423</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 2019 Conference of the North</title>
+				<meeting>the 2019 Conference of the North</meeting>
+		<imprint>
+			<publisher>Association for Computational Linguistics</publisher>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="5,69.23,120.30,224.81,6.97;5,69.23,128.27,139.94,6.97" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">A White Box Analysis of ColBERT</title>
+		<author>
+			<persName coords=""><forename type="first">Thibault</forename><surname>Formal</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Benjamin</forename><surname>Piwowarski</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Stéphane</forename><surname>Clinchant</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/978-3-030-72240-1_23</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Lecture Notes in Computer Science</title>
+				<imprint>
+			<publisher>Springer International Publishing</publisher>
+			<date type="published" when="2021">2021</date>
+			<biblScope unit="page" from="257" to="263" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="5,69.23,136.24,225.99,6.97;5,69.23,144.21,224.81,6.97;5,68.99,152.18,134.53,6.97" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Polyencoders: Transformer Architectures and Pre-training Strategies for Fast and Accurate Multi-sentence Scoring</title>
+		<author>
+			<persName coords=""><forename type="first">Samuel</forename><surname>Humeau</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Kurt</forename><surname>Shuster</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Marie-Anne</forename><surname>Lachaux</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">J</forename><surname>Weston</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proc. ICLR</title>
+				<meeting>ICLR</meeting>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="5,69.23,160.15,224.81,6.97;5,69.23,168.12,215.95,6.97" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">ColBERT</title>
+		<author>
+			<persName coords=""><forename type="first">Omar</forename><surname>Khattab</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Matei</forename><surname>Zaharia</surname></persName>
+		</author>
+		<idno type="DOI">10.1145/3397271.3401075</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 43rd International ACM SIGIR Conference on Research and Development in Information Retrieval</title>
+				<meeting>the 43rd International ACM SIGIR Conference on Research and Development in Information Retrieval</meeting>
+		<imprint>
+			<publisher>ACM</publisher>
+			<date type="published" when="2020-07-25">2020</date>
+			<biblScope unit="page" from="39" to="48" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="5,69.23,176.09,224.81,6.97;5,69.03,184.06,18.66,6.97" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">The neural hype, justified!</title>
+		<author>
+			<persName coords=""><forename type="first">Jimmy</forename><surname>Lin</surname></persName>
+		</author>
+		<idno type="DOI">10.1145/3458553.3458563</idno>
+	</analytic>
+	<monogr>
+		<title level="j">ACM SIGIR Forum</title>
+		<title level="j" type="abbrev">SIGIR Forum</title>
+		<idno type="ISSN">0163-5840</idno>
+		<imprint>
+			<biblScope unit="volume">53</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="88" to="93" />
+			<date type="published" when="2019-12">2019. 2019</date>
+			<publisher>Association for Computing Machinery (ACM)</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="5,69.23,192.03,224.81,6.97;5,69.23,200.00,156.02,6.97" xml:id="b6">
+	<monogr>
+		<author>
+			<persName coords=""><forename type="first">Jimmy</forename><surname>Lin</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Rodrigo</forename><surname>Nogueira</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Andrew</forename><surname>Yates</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:2010.06467</idno>
+		<title level="m">Pretrained Transformers for Text Ranking: BERT and Beyond</title>
+				<imprint>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="5,69.23,207.97,225.58,6.97;5,69.23,215.94,222.98,6.97" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Sparse, Dense, and Attentional Representations for Text Retrieval</title>
+		<author>
+			<persName coords=""><forename type="first">Yi</forename><surname>Luan</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Jacob</forename><surname>Eisenstein</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Kristina</forename><surname>Toutanova</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Michael</forename><surname>Collins</surname></persName>
+		</author>
+		<idno type="DOI">10.1162/tacl_a_00369</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Transactions of the Association for Computational Linguistics</title>
+		<idno type="ISSNe">2307-387X</idno>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="page" from="329" to="345" />
+			<date type="published" when="2020">2020</date>
+			<publisher>MIT Press - Journals</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="5,69.23,223.91,224.81,6.97;5,69.23,231.88,225.99,6.97;5,69.23,239.85,200.04,6.97" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Efficient Document Re-Ranking for Transformers by Precomputing Term Representations</title>
+		<author>
+			<persName coords=""><forename type="first">Sean</forename><surname>Macavaney</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Franco</forename><forename type="middle">Maria</forename><surname>Nardini</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Raffaele</forename><surname>Perego</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Nicola</forename><surname>Tonellotto</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Nazli</forename><surname>Goharian</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Ophir</forename><surname>Frieder</surname></persName>
+		</author>
+		<idno type="DOI">10.1145/3397271.3401093</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 43rd International ACM SIGIR Conference on Research and Development in Information Retrieval</title>
+				<meeting>the 43rd International ACM SIGIR Conference on Research and Development in Information Retrieval</meeting>
+		<imprint>
+			<publisher>ACM</publisher>
+			<date type="published" when="2020-07-25">2020</date>
+			<biblScope unit="page" from="49" to="58" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="5,69.23,247.82,224.81,6.97;5,69.23,255.79,224.81,6.97;5,69.23,263.76,126.93,6.97" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Expansion via Prediction of Importance with Contextualization</title>
+		<author>
+			<persName coords=""><forename type="first">Sean</forename><surname>Macavaney</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Franco</forename><forename type="middle">Maria</forename><surname>Nardini</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Raffaele</forename><surname>Perego</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Nicola</forename><surname>Tonellotto</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Nazli</forename><surname>Goharian</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Ophir</forename><surname>Frieder</surname></persName>
+		</author>
+		<idno type="DOI">10.1145/3397271.3401262</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 43rd International ACM SIGIR Conference on Research and Development in Information Retrieval</title>
+				<meeting>the 43rd International ACM SIGIR Conference on Research and Development in Information Retrieval</meeting>
+		<imprint>
+			<publisher>ACM</publisher>
+			<date type="published" when="2020-07-25">2020</date>
+			<biblScope unit="page" from="1573" to="1576" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="5,333.39,88.42,224.81,6.97;5,333.39,96.39,176.68,6.97" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Declarative Experimentation in Information Retrieval using PyTerrier</title>
+		<author>
+			<persName coords=""><forename type="first">Craig</forename><surname>Macdonald</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Nicola</forename><surname>Tonellotto</surname></persName>
+		</author>
+		<idno type="DOI">10.1145/3409256.3409829</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 2020 ACM SIGIR on International Conference on Theory of Information Retrieval</title>
+				<meeting>the 2020 ACM SIGIR on International Conference on Theory of Information Retrieval</meeting>
+		<imprint>
+			<publisher>ACM</publisher>
+			<date type="published" when="2020-09-14">2020</date>
+			<biblScope unit="page" from="161" to="168" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="5,333.39,104.36,225.88,6.97;5,333.39,112.33,225.88,6.97;5,333.39,120.30,40.49,6.97" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">PyTerrier: Declarative Experimentation in Python from BM25 to Dense Retrieval</title>
+		<author>
+			<persName coords=""><forename type="first">Craig</forename><surname>Macdonald</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Nicola</forename><surname>Tonellotto</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Sean</forename><surname>Macavaney</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Iadh</forename><surname>Ounis</surname></persName>
+		</author>
+		<idno type="DOI">10.1145/3459637.3482013</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 30th ACM International Conference on Information &amp; Knowledge Management</title>
+				<meeting>the 30th ACM International Conference on Information &amp; Knowledge Management</meeting>
+		<imprint>
+			<publisher>ACM</publisher>
+			<date type="published" when="2021-10-26">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="5,333.39,128.27,225.88,6.97;5,333.39,136.24,223.60,6.97" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">High accuracy retrieval with multiple nested ranker</title>
+		<author>
+			<persName coords=""><forename type="first">Irina</forename><surname>Matveeva</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Chris</forename><forename type="middle">J C</forename><surname>Burges</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Timo</forename><surname>Burkard</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Andy</forename><surname>Laucius</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Leon</forename><surname>Wong</surname></persName>
+		</author>
+		<idno type="DOI">10.1145/1148170.1148246</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 29th annual international ACM SIGIR conference on Research and development in information retrieval - SIGIR &apos;06</title>
+				<meeting>the 29th annual international ACM SIGIR conference on Research and development in information retrieval - SIGIR &apos;06</meeting>
+		<imprint>
+			<publisher>ACM Press</publisher>
+			<date type="published" when="2006">2006</date>
+			<biblScope unit="page" from="437" to="444" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="5,333.39,144.21,225.88,6.97;5,333.39,152.18,225.88,6.97;5,333.39,160.15,70.48,6.97" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Distributed Representations of Words and Phrases and their Compositionality</title>
+		<author>
+			<persName coords=""><forename type="first">Tomas</forename><surname>Mikolov</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Ilya</forename><surname>Sutskever</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Kai</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Greg</forename><forename type="middle">S</forename><surname>Corrado</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Jeff</forename><surname>Dean</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proc. NIPS</title>
+				<meeting>NIPS</meeting>
+		<imprint>
+			<date type="published" when="2013">2013</date>
+			<biblScope unit="page" from="3111" to="3119" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="5,333.39,168.12,224.81,6.97;5,333.39,176.09,162.60,6.97" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Efficient and effective retrieval using selective pruning</title>
+		<author>
+			<persName coords=""><forename type="first">Nicola</forename><surname>Tonellotto</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Craig</forename><surname>Macdonald</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Iadh</forename><surname>Ounis</surname></persName>
+		</author>
+		<idno type="DOI">10.1145/2433396.2433407</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the sixth ACM international conference on Web search and data mining - WSDM &apos;13</title>
+				<meeting>the sixth ACM international conference on Web search and data mining - WSDM &apos;13</meeting>
+		<imprint>
+			<publisher>ACM Press</publisher>
+			<date type="published" when="2013">2013</date>
+			<biblScope unit="page" from="63" to="72" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="5,333.39,184.06,224.99,6.97;5,333.39,192.03,224.81,6.97;5,333.39,200.00,93.59,6.97" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Efficient Query Processing for Scalable Web Search</title>
+		<author>
+			<persName coords=""><forename type="first">Nicola</forename><surname>Tonellotto</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Craig</forename><surname>Macdonald</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Iadh</forename><surname>Ounis</surname></persName>
+		</author>
+		<idno type="DOI">10.1561/1500000057</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Foundations and Trends® in Information Retrieval</title>
+		<title level="j" type="abbrev">FNT in Information Retrieval</title>
+		<idno type="ISSN">1554-0669</idno>
+		<idno type="ISSNe">1554-0677</idno>
+		<imprint>
+			<biblScope unit="volume">12</biblScope>
+			<biblScope unit="issue">4-5</biblScope>
+			<biblScope unit="page" from="319" to="500" />
+			<date type="published" when="2018">2018. 2018</date>
+			<publisher>Now Publishers</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="5,333.39,207.97,225.58,6.97;5,333.28,215.94,225.06,6.97;5,333.39,223.91,190.48,6.97" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Approximate nearest neighbor negative contrastive learning for dense text retrieval</title>
+		<author>
+			<persName coords=""><forename type="first">Lee</forename><surname>Xiong</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Chenyan</forename><surname>Xiong</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Ye</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Kwok-Fung</forename><surname>Tang</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Jialin</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Paul</forename><surname>Bennett</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Junaid</forename><surname>Ahmed</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Arnold</forename><surname>Overwijk</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proc. ICLR</title>
+				<meeting>ICLR</meeting>
+		<imprint>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct coords="5,333.39,231.88,224.81,6.97;5,333.39,239.85,224.81,6.97;5,333.39,247.82,175.60,6.97" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">From Neural Re-Ranking to Neural Ranking</title>
+		<author>
+			<persName coords=""><forename type="first">Hamed</forename><surname>Zamani</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Mostafa</forename><surname>Dehghani</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">W</forename><forename type="middle">Bruce</forename><surname>Croft</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Erik</forename><surname>Learned-Miller</surname></persName>
+		</author>
+		<author>
+			<persName coords=""><forename type="first">Jaap</forename><surname>Kamps</surname></persName>
+		</author>
+		<idno type="DOI">10.1145/3269206.3271800</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 27th ACM International Conference on Information and Knowledge Management</title>
+				<meeting>the 27th ACM International Conference on Information and Knowledge Management</meeting>
+		<imprint>
+			<publisher>ACM</publisher>
+			<date type="published" when="2018-10-17">2018</date>
+			<biblScope unit="page" from="497" to="506" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>
